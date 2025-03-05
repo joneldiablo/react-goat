@@ -147,11 +147,4 @@ export default class Container<
     return this.breakpoint ? children : this.waitBreakpoint;
   }
 
-  render() {
-    return (
-      <div ref={this.ref} className={this.state.localClasses} {...this.componentProps}>
-        {this.content()}
-      </div>
-    );
-  }
 }

@@ -1,11 +1,13 @@
 import React, { createRef, ReactNode, JSX, ExoticComponent } from "react";
 import { eventHandler } from "dbl-utils";
 
+export type Classes = string | string[] | Record<string, string | string[]>;
+
 export interface ComponentProps {
   _props?: Record<string, any>;
   active?: boolean;
   children?: ReactNode;
-  classes?: string | string[] | { '.': string };
+  classes?: Classes;
   name: string;
   style?: React.CSSProperties & { [key: `--${string}`]: string | number };
   tag?: keyof JSX.IntrinsicElements | false | ExoticComponent<{ children?: ReactNode; }>;
@@ -119,7 +121,7 @@ export default class Component<
     if (Tag === false) return <>{content} </>;
     const TheTag = Tag as keyof JSX.IntrinsicElements;
 
-    const cn = [Component.jsClass, name, this.name, this.classes, localClasses];
+    const cn: (string | string[])[] = [Component.jsClass, name, this.name, this.classes, localClasses];
     if (classes) {
       if (typeof classes === 'string') cn.push(classes);
       else if (Array.isArray(classes)) cn.push(classes.join(' '));

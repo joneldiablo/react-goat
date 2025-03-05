@@ -1,0 +1,15 @@
+__tests__
+bin
+coverage
+coverage-e2e
+e2e
+node_modules
+tmp
+.babelrc
+jest.config.ts
+tsconfig.json
+tsconfig.esm.json
+build.sh
+update-version.js
+typedoc.json
+docs

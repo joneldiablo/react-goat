@@ -1,6 +1,6 @@
 {
   "name": "react-goat",
-  "version": "1.0.1",
+  "version": "1.0.0-dev",
   "description": "How did it get there?",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

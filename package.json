@@ -1,6 +1,6 @@
 {
   "name": "react-goat",
-  "version": "1.0.0-dev",
+  "version": "1.0.1",
   "description": "How did it get there?",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -31,14 +31,6 @@
   },
   "author": "joneldiablo",
   "license": "ISC",
-  "peerDependencies": {
-    "react": "^18.3.1"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    }
-  },
   "dependencies": {
     "css-element-queries": "^1.2.3",
     "dbl-utils": "^1.0.8",

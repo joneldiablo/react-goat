@@ -10,7 +10,7 @@ export interface ComponentProps {
   classes?: Classes;
   name: string;
   style?: React.CSSProperties & { [key: `--${string}`]: string | number };
-  tag?: keyof JSX.IntrinsicElements | false | ExoticComponent<{ children?: ReactNode; }>;
+  tag?: keyof JSX.IntrinsicElements | false | ExoticComponent<{ children?: ReactNode; }> | string;
 }
 
 export interface ComponentState {

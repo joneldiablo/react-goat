@@ -54,6 +54,8 @@ export default class Container<
 
   protected breakpoint: string | undefined = undefined;
   protected orientation: "landscape" | "portrait" | undefined;
+  protected width = 0;
+  protected height = 0;
   protected waitBreakpoint = <Icons icon="spinner" classes="spinner" />;
   protected resizeSensor?: ResizeSensor;
   protected onResizeTimeout?: NodeJS.Timeout;
@@ -106,6 +108,8 @@ export default class Container<
         .filter((br) => width >= (this.props.breakpoints?.[br] ?? 0))
         .pop();
       this.orientation = width >= height ? "landscape" : "portrait";
+      this.width = width;
+      this.height = height;
 
       const resp: ResizeResponse = {
         width,

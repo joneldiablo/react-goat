@@ -1,63 +1,71 @@
+import { useState, useMemo } from "react";
+
+type Classes = string | string[];
+
+interface UseClassesProps {
+  fixedClasses?: Classes;
+  initialClasses?: Classes;
+}
+
 export default function useClasses({
-  fixedClasses,
-  initialClasses
-}) {
-  const [localClassesSet, setLocalClassesSet] = useState(initialClasses);
+  fixedClasses = [],
+  initialClasses = [],
+}: UseClassesProps) {
+  const [localClasses, setLocalClasses] = useState<Set<string>>(
+    new Set(Array.isArray(initialClasses) ? initialClasses : initialClasses.split(' '))
+  );
 
-  const setClasses = (classes) => {
-    const localClasses = setLocalClasses && (Array.isArray(setLocalClasses)
-      ? setLocalClasses
-      : setLocalClasses.split(' '));
-    const setLocalClasses = new Set(localClasses);
-    if (!classes) return [setLocalClasses, new Set()];
-    const setClasses = new Set(
-      classes && (Array.isArray(classes)
-        ? classes.flatMap(c => c.split(' '))
-        : classes.split(' '))
-    );
-    return [setLocalClasses, setClasses];
-  }
+  const fixedClassesSet = useMemo(
+    () => new Set(Array.isArray(fixedClasses) ? fixedClasses : fixedClasses.split(' ')),
+    [fixedClasses]
+  );
 
-  const toggleClasses = (classes) => {
-    if (!classes) return false;
-    const [localClasses, setClasses] = setClasses(classes);
-    setClasses.forEach(c => {
-      if (localClasses.has(c)) localClasses.delete(c);
-      else localClasses.add(c);
+  const allClasses = useMemo(
+    () => Array.from(new Set([...fixedClassesSet, ...localClasses])).join(' '),
+    [localClasses, fixedClassesSet]
+  );
+
+  const setClasses = (classes: Classes) => {
+    const classArray = Array.isArray(classes) ? classes : classes.split(' ');
+    setLocalClasses(new Set(classArray));
+  };
+
+  const addClasses = (classes: Classes) => {
+    const classesToAdd = Array.isArray(classes) ? classes : classes.split(' ');
+    setLocalClasses(prev => new Set([...prev, ...classesToAdd]));
+  };
+
+  const deleteClasses = (classes: Classes) => {
+    const classesToRemove = new Set(Array.isArray(classes) ? classes : classes.split(' '));
+    setLocalClasses(prev => {
+      const updated = new Set(prev);
+      classesToRemove.forEach(cls => updated.delete(cls));
+      return new Set([...prev].filter(cls => !classesToRemove.has(cls)));
     });
-    this.setState({
-      localClasses: Array.from(localClasses).flat().join(' ')
-    });
-    return true;
-  }
+  };
 
-  const addClasses = (classes) => {
-    if (!classes) return false;
-    const [localClasses, setClasses] = this.setClasses(classes);
-    setClasses.forEach(localClasses.add.bind(localClasses));
-    this.setState({
-      localClasses: Array.from(localClasses).flat().join(' ')
+  const toggleClasses = (classes: Classes) => {
+    const classesToToggle = Array.isArray(classes) ? classes : classes.split(' ');
+    setLocalClasses(prev => {
+      const updatedSet = new Set(prev);
+      classesToToggle.forEach(cls => {
+        if (updatedSet.has(cls)) updatedSet.delete(cls);
+        else updatedSet.add(cls);
+      });
+      return updatedSet;
     });
-    return true;
-  }
+  };
 
-  const deleteClasses = (classes) => {
-    if (!classes) return false;
-    const [localClasses, setClasses] = this.setClasses(classes);
-    setClasses.forEach(localClasses.delete.bind(localClasses));
-    this.setState({
-      localClasses: Array.from(localClasses).flat().join(' ')
-    });
-    return true;
-  }
-
-  const classes = [this.constructor.jsClass, name, this.name, this.classes, localClasses];
+  const classes = useMemo(
+    () => [...fixedClassesSet, ...localClasses].join(' '),
+    [fixedClassesSet, localClasses]
+  );
 
   return {
-    classes,
+    classes: allClasses,
     setClasses,
-    toggleClasses,
     addClasses,
     deleteClasses,
-  }
+    toggleClasses,
+  };
 }

@@ -12,6 +12,7 @@ const config: JestConfigWithTsJest = {
     ],
   },
   moduleNameMapper: {
+    "^app-icons-v1.0/(.*)$": "<rootDir>/app-icons-v1.0/$1",
     "^(\\.{1,2}/.*)\\.js$": "$1",
     "^react$": "<rootDir>/node_modules/react",
   },

@@ -11,7 +11,8 @@ const COMPONENTS: Record<string, React.FC<any> | typeof React.Component<any, any
   ...containers
 };
 
-export const addComponents = (components: Record<string, React.FC<any> | typeof React.Component>) => {
+export const addComponents = (components: Record<string, React.FC<any> | typeof React.Component | {} | false>) => {
+  if (!components) return;
   Object.assign(COMPONENTS, components);
 }
 

@@ -170,14 +170,13 @@ export default class Goat {
     }
 
     const wrapperProps = {
-      key: componentProps.name || i,
       className: cnSection.flat().join(' '),
       style: {
         "--component-name": `"${componentProps.name}"`,
         ...wrapperStyle
       }
     };
-    return (<Wrapper {...wrapperProps}>
+    return (<Wrapper key={componentProps.name || i} {...wrapperProps}>
       <Component {...componentProps} />
     </Wrapper>);
 

@@ -19,8 +19,7 @@ export default function FloatingContainer({
   const reference: HTMLElement = (floatAround && ('current' in floatAround ? floatAround.current?.ref?.current || floatAround.current : floatAround)) || document.body;
 
   const onOpenChange = useCallback((inOpen: boolean, event: Event, reason?: string) => {
-    console.log(inOpen, event, reason);
-    eventHandler.dispatch(name, { [name]: { open: inOpen, event } });
+    eventHandler.dispatch(name, { [name]: { open: inOpen, event, reason } });
   }, [name]);
 
   const selfUpdate = useCallback((update: { open?: boolean | 'toggle' }, echo?: boolean) => {
@@ -98,7 +97,7 @@ export default function FloatingContainer({
   const cn: (string | string[])[] = [name, `${name}-FloatingContainer`];
   if (classes) {
     if (typeof classes === 'object')
-      cn.push((classes as Record<string, string | string[]>)[name]);
+      cn.push((classes as Record<string, string | string[]>)['.']);
     else cn.push(classes);
   }
 

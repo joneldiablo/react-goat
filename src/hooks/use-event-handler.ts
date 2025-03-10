@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { eventHandler } from "dbl-utils";
 
-export default function useEventHandler(events, id) {
+export default function useEventHandler(events: [string, (...args: any[]) => void][], id: string) {
   const eventNames = Object.values(events).map(([name]) => name).join('.');
   useEffect(() => {
     Object.values(events).forEach(([evtName, evtCallback]) => {

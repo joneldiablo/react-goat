@@ -1,3 +1,4 @@
+export { default as appGoatCtrl } from "./app-controller";
 export { default as Container } from "./containers/container";
 export { default as Controller } from "./controllers/controller";
 export { default as GoatContainer } from "./containers/goat-container";
@@ -19,6 +20,7 @@ export * from "./react-router-schema/react-router-schema";
 export * from "./react-router-schema/route";
 export * from "./react-router-schema/with-route-wrapper";
 
+export * from "./app-controller";
 export * from "./component";
 export * from "./components";
 export * from "./containers";

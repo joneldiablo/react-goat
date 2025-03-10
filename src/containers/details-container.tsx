@@ -1,6 +1,6 @@
 import React from "react";
 
-import { eventHandler } from "dbl-utils";
+import { eventHandler, splitAndFlat } from "dbl-utils";
 
 import Component, { ComponentProps, ComponentState } from "../component";
 
@@ -73,8 +73,8 @@ export default class DetailsContainer<
     const cnc = Array.isArray(containerClasses) ? containerClasses : [containerClasses];
     return (
       <>
-        <summary className={cnl.filter(Boolean).join(" ")}>{this.props.label}</summary>
-        {this.state.open && <div className={cnc.filter(Boolean).join(" ")}>{children}</div>}
+        <summary className={splitAndFlat(cnl, ' ').join(" ")}>{this.props.label}</summary>
+        {this.state.open && <div className={splitAndFlat(cnc, ' ').join(" ")}>{children}</div>}
       </>
     );
   }

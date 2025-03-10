@@ -50,7 +50,6 @@ export default class SlideContainer<
     return super.content(
       <Splide
         {...attrs}
-        destroy="completely"
         key={`${this.name};perPage=${attrs.options?.perPage}`}
       >
         {arrChildren.map((child, index) => mapSlides([index, child]))}

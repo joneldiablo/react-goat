@@ -63,14 +63,14 @@ export default class GoatContainer<
   }
 
   get theTemplate(): any {
-    return (this.constructor as typeof GoatContainer).template;
+    return (this.constructor as typeof GoatContainer).template || {};
   }
 
   componentDidMount(): void {
     super.componentDidMount();
     this.events.forEach(([evtName, callback]) => eventHandler.subscribe(evtName, callback, this.name));
     const definitions = deepMerge(
-      this.theTemplate.definitions || {},
+      this.theTemplate?.definitions || {},
       this.props.definitions || {}
     );
 

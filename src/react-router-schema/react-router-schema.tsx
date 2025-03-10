@@ -18,13 +18,12 @@ import { RouteProps } from "./route";
 interface SchemaProps {
   test?: boolean;
   theme?: string;
-  routes: RouteProps[];
+  routes: RouteProps | RouteProps[];
   defaultController?: any;
   forceRebuild?: boolean;
 }
 
 const defaultProps: Partial<SchemaProps> = {
-  routes: [],
   defaultController: controllers.Controller,
 };
 

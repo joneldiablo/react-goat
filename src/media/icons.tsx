@@ -1,8 +1,9 @@
 import React from "react";
 import IcoMoon, { IcoMoonProps, iconList } from "react-icomoon";
 
-import defaultIcons from "../../app-icons-v1.0/selection.json";
 import { splitAndFlat } from "dbl-utils";
+
+import defaultIcons from "../app-icons-v1.0/selection.json";
 
 let is = JSON.parse(JSON.stringify(defaultIcons));
 

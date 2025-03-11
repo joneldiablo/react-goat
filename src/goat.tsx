@@ -43,6 +43,7 @@ export default class Goat {
           domNode.defaultChecked = domNode.checked;
           delete domNode.value;
           delete domNode.checked;
+          return;
         default:
           return;
       }

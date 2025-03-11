@@ -446,7 +446,8 @@ export class AppGoatController {
    * @returns Array con definiciones globales.
    */
   getGlobalDefinitions(): Array<any> {
-    return this.globalDefinitions;
+    const allDefs = deepMerge({}, ...this.globalDefinitions);
+    return resolveRefs(allDefs, { definitions: allDefs });
   }
 
   /**

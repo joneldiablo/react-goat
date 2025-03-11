@@ -4,7 +4,7 @@ import { eventHandler, splitAndFlat } from 'dbl-utils';
 import useEventHandler from '../hooks/use-event-handler';
 import Component, { ComponentProps } from '../component';
 
-interface FloatingContainerProps extends ComponentProps, Pick<AutoPlacementOptions, 'alignment' | 'allowedPlacements'>, Pick<UseFloatingOptions, 'placement'> {
+export interface FloatingContainerProps extends ComponentProps, Pick<AutoPlacementOptions, 'alignment' | 'allowedPlacements'>, Pick<UseFloatingOptions, 'placement'> {
   floatAround?: React.RefObject<any> | React.RefObject<HTMLElement> | HTMLElement | null;
 }
 
@@ -101,20 +101,17 @@ export default function FloatingContainer({
     else cn.push(classes);
   }
 
-  return (
-    <div>
-      {reference instanceof Node && open && (
-        <div
-          ref={(node) => {
-            floatingRef.current = node;
-            refs.setFloating(node);
-          }}
-          className={splitAndFlat(cn, ' ').join(' ')}
-          style={{ ...style, ...floatingStyles, zIndex: 1050 }}
-        >
-          {children}
-        </div>
-      )}
-    </div>
-  );
+  return (<>
+    {reference instanceof Node && open &&
+      <div
+        ref={(node) => {
+          floatingRef.current = node;
+          refs.setFloating(node);
+        }}
+        className={splitAndFlat(cn, ' ').join(' ')}
+        style={{ ...style, ...floatingStyles, zIndex: 1050 }}
+      >
+        {children}
+      </div>}
+  </>);
 }

@@ -11,6 +11,7 @@ export interface ComponentProps {
   name: string;
   style?: React.CSSProperties & { [key: `--${string}`]: string | number };
   tag?: keyof JSX.IntrinsicElements | false | ExoticComponent<{ children?: ReactNode; }> | string;
+  ref?: React.Ref<any>;
 }
 
 export interface ComponentState {

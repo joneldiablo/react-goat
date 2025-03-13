@@ -64,7 +64,7 @@ export default class HeroContainer<TProps extends HeroContainerProps = HeroConta
 
     return (
       <Swiper {...propsSwiper}>
-        {Array.isArray(children) && children.map((child, i) => {
+        {Array.isArray(children) && children.map((child: any, i: number) => {
           if (!child) return null;
 
           const props = (

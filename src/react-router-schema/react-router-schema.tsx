@@ -73,7 +73,7 @@ export default class SchemaController extends React.Component<SchemaProps> {
     else if (typeof route.routes === "object") {
       subroutes = [];
       const routesRecord = route.routes as Record<string, Omit<RouteProps, 'name'>>;
-      route.routes = Object.keys(routesRecord).map(name => ({ name, ...routesRecord[name] }));
+      route.routes = Object.keys(routesRecord).map(name => ({ name, ...routesRecord[name] }) as any);
     }
 
     if (subroutes) {

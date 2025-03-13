@@ -4,7 +4,7 @@ import Container, { ContainerProps } from "./container";
 
 
 export interface ProportionalContainerProps extends ContainerProps {
-  ratio?: string | Record<string, string | number>;
+  ratio?: string | Record<string, string | number> | number;
   overflow?: string;
   innerClasses?: string | string[];
 }

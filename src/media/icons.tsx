@@ -7,7 +7,7 @@ import defaultIcons from "../app-icons-v1.0/selection.json";
 
 let is = JSON.parse(JSON.stringify(defaultIcons));
 
-interface IconsProps {
+export interface IconsProps {
   className?: string | string[];
   classes?: string | string[];
   height?: number | string;

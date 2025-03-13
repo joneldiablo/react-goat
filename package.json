@@ -2,6 +2,7 @@
   "name": "@farm-js/react-goat",
   "version": "1.0.1",
   "description": "How did it get there?",
+  "access": "public",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",

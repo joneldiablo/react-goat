@@ -3,13 +3,11 @@ import { eventHandler } from "dbl-utils";
 
 export type Classes = string | string[] | Record<string, string | string[]>;
 
-export interface ComponentProps {
+export interface ComponentProps extends React.ComponentProps<any> {
   _props?: Record<string, any>;
   active?: boolean;
-  children?: ReactNode;
   classes?: Classes;
   name: string;
-  style?: React.CSSProperties & { [key: `--${string}`]: string | number };
   tag?: keyof JSX.IntrinsicElements | false | ExoticComponent<{ children?: ReactNode; }> | string;
   ref?: React.Ref<any>;
 }
@@ -34,18 +32,18 @@ export default class Component<
   static dontBuildContent? = undefined;
   static wrapper?: string | boolean = undefined;
 
-  protected tag: keyof JSX.IntrinsicElements = 'div';
+  protected tag: keyof JSX.IntrinsicElements | React.FC | typeof React.Component | ExoticComponent = 'div';
   protected classes: string = '';
   protected style: React.CSSProperties = {};
   protected name: string;
   protected ref = createRef<any>();
   protected ready?: NodeJS.Timeout;
 
-  protected eventHandlers: Record<string, (e: Event) => void>;
+  protected eventHandlers: Record<string, (...args: any[]) => void>;
 
   constructor(props: TProps) {
     super(props);
-    this.name = `${this.props.name}-${Component.jsClass}`;
+    this.name = `${this.props.name}-${(this.constructor as any).jsClass}`;
     this.state = {
       localClasses: '',
       localStyles: {}
@@ -122,7 +120,7 @@ export default class Component<
     if (Tag === false) return <>{content} </>;
     const TheTag = Tag as keyof JSX.IntrinsicElements;
 
-    const cn: (string | string[])[] = [Component.jsClass, name, this.name, this.classes, localClasses];
+    const cn: (string | string[])[] = [(this.constructor as any).jsClass, name, this.name, this.classes, localClasses];
     if (classes) {
       if (typeof classes === 'string') cn.push(classes);
       else if (Array.isArray(classes)) cn.push(classes.join(' '));

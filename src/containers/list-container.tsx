@@ -21,7 +21,7 @@ export default class ListContainer<TProps extends ListContainerProps = ListConta
     return (
       Array.isArray(children) &&
       children
-        .map((child, i) => {
+        .map((child: any, i: number) => {
           if (!child) return null;
 
           let licn = [i % 2 ? "even" : "odd", `li-num-${i}`];

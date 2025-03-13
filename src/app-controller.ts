@@ -63,7 +63,7 @@ export interface AppGoatControllerProps {
 export interface RouteSchema {
   view: Record<string, any>;
   definitions?: Record<string, any>;
-  routes?: Record<string, RouteSchema> | RouteSchema[];
+  routes?: Record<string, RouteSchema> | RouteSchema[] | Array<RouteSchema | string>;
   data?: any;
 }
 

@@ -20,7 +20,7 @@ export default class GridContainer<TProps extends GridContainerProps = GridConta
     return (
       Array.isArray(children) &&
       children
-        .map((child, i) => {
+        .map((child: any, i: number) => {
           if (!child) return null;
 
           let colcn = [i % 2 ? "even" : "odd", "col-num-" + i];

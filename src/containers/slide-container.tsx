@@ -32,7 +32,7 @@ export default class SlideContainer<
     },
   };
 
-  content(children: React.ReactNode = this.props.children): React.ReactNode {
+  content(children: React.ReactNode = this.props.children): any {
     const attrs: SplideProps = this.props.slider || {};
     const arrChildren = React.Children.toArray(children);
 

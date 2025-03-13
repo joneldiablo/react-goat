@@ -99,7 +99,7 @@ export default class GoatContainer<
     return this.state[sectionName];
   }
 
-  content(children: ReactNode = this.props.children): ReactNode {
+  content(children = this.props.children): any {
     if (!(this.breakpoint && this.templateSolved)) return this.waitBreakpoint;
 
     const builded = this.goat.buildContent(this.templateSolved);

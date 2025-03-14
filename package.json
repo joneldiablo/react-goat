@@ -257,9 +257,13 @@
   },
   "author": "joneldiablo",
   "license": "ISC",
-  "dependencies": {
+  "peerDependencies": {
     "@floating-ui/react": "^0.27.5",
     "@splidejs/react-splide": "^0.7.12",
+    "react-youtube": "^10.1.0",
+    "swiper": "^11.2.5"
+  },
+  "dependencies": {
     "css-element-queries": "^1.2.3",
     "dbl-utils": "^1.0.11",
     "html-react-parser": "^5.2.2",
@@ -269,8 +273,6 @@
     "react-icomoon": "^2.6.1",
     "react-router": "^7.2.0",
     "react-router-dom": "^7.2.0",
-    "react-youtube": "^10.1.0",
-    "swiper": "^11.2.5",
     "url-join": "^5.0.0"
   },
   "devDependencies": {

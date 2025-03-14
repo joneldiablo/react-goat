@@ -3,7 +3,7 @@ import type { SwiperModule } from "swiper/types";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 
-import { deepMerge } from "dbl-utils";
+import { deepMerge } from "dbl-utils/object-mutation";
 import Container, { ContainerProps } from "./container";
 
 export interface HeroContainerProps extends ContainerProps {

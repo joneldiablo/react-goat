@@ -1,6 +1,6 @@
 import React from "react";
 import Component, { ComponentProps } from "../component";
-import { splitAndFlat } from "dbl-utils";
+import { splitAndFlat } from "dbl-utils/utils";
 
 // Define the ObjectFit type with possible CSS values.
 type ObjectFit = 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
@@ -35,7 +35,7 @@ export default class Image extends Component<ImageProps> {
 
   protected content(): React.ReactNode {
     const { src, alt, children, width, height, objectFit, objectPosition, imageClasses, contentProps } = this.props;
-    
+
     let imgSrc = typeof src === "object" ? src.default || "" : src || "";
 
     return (

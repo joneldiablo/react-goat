@@ -1,5 +1,5 @@
 import React, { createRef, ReactNode, JSX, ExoticComponent } from "react";
-import { eventHandler } from "dbl-utils";
+import eventHandler from "dbl-utils/event-handler";
 
 export type Classes = string | string[] | Record<string, string | string[]>;
 

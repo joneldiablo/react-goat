@@ -1,7 +1,7 @@
 import React, { createRef, ReactNode, RefObject } from "react";
 import ResizeSensor from "css-element-queries/src/ResizeSensor";
 
-import { eventHandler } from "dbl-utils";
+import eventHandler from "dbl-utils/event-handler";
 
 import Component, { ComponentProps, ComponentState } from "../component";
 import Icons from "../media/icons";

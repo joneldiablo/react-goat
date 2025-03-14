@@ -1,6 +1,8 @@
 import React, { ReactNode } from "react";
 
-import { eventHandler, resolveRefs, deepMerge } from "dbl-utils";
+import eventHandler from "dbl-utils/event-handler";
+import { deepMerge } from "dbl-utils/object-mutation";
+import resolveRefs from "dbl-utils/resolve-refs";
 
 import Goat from "../goat";
 import Container, { ContainerProps, ContainerState } from "./container";

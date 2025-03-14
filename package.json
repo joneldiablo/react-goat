@@ -11,90 +11,236 @@
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js",
       "types": "./dist/types/index.d.ts",
-      "source": "./src/index.ts"
+      "source": "./src/js/index.ts"
     },
-    "./ts/*": {
+    "./app-controller": {
+      "import": "./dist/esm/app-controller.js",
+      "require": "./dist/cjs/app-controller.js",
+      "types": "./dist/types/app-controller.d.ts",
+      "source": "./src/js/app-controller.ts"
+    },
+    "./app-icons-v1.0/selection": {
+      "import": "./dist/esm/app-icons-v1.0/selection.json",
+      "require": "./dist/cjs/app-icons-v1.0/selection.json",
+      "types": "./dist/types/app-icons-v1.0/selection.d.ts",
+      "source": "./src/js/app-icons-v1.0/selection.ts"
+    },
+    "./component": {
+      "import": "./dist/esm/component.js",
+      "require": "./dist/cjs/component.js",
+      "types": "./dist/types/component.d.ts",
+      "source": "./src/js/component.ts"
+    },
+    "./components": {
+      "import": "./dist/esm/components.js",
+      "require": "./dist/cjs/components.js",
+      "types": "./dist/types/components.d.ts",
+      "source": "./src/js/components.ts"
+    },
+    "./containers/container": {
+      "import": "./dist/esm/containers/container.js",
+      "require": "./dist/cjs/containers/container.js",
+      "types": "./dist/types/containers/container.d.ts",
+      "source": "./src/js/containers/container.ts"
+    },
+    "./containers/details-container": {
+      "import": "./dist/esm/containers/details-container.js",
+      "require": "./dist/cjs/containers/details-container.js",
+      "types": "./dist/types/containers/details-container.d.ts",
+      "source": "./src/js/containers/details-container.ts"
+    },
+    "./containers/floating-container": {
+      "import": "./dist/esm/containers/floating-container.js",
+      "require": "./dist/cjs/containers/floating-container.js",
+      "types": "./dist/types/containers/floating-container.d.ts",
+      "source": "./src/js/containers/floating-container.ts"
+    },
+    "./containers/form-container": {
+      "import": "./dist/esm/containers/form-container.js",
+      "require": "./dist/cjs/containers/form-container.js",
+      "types": "./dist/types/containers/form-container.d.ts",
+      "source": "./src/js/containers/form-container.ts"
+    },
+    "./containers/goat-container": {
+      "import": "./dist/esm/containers/goat-container.js",
+      "require": "./dist/cjs/containers/goat-container.js",
+      "types": "./dist/types/containers/goat-container.d.ts",
+      "source": "./src/js/containers/goat-container.ts"
+    },
+    "./containers/grid-container": {
+      "import": "./dist/esm/containers/grid-container.js",
+      "require": "./dist/cjs/containers/grid-container.js",
+      "types": "./dist/types/containers/grid-container.d.ts",
+      "source": "./src/js/containers/grid-container.ts"
+    },
+    "./containers/hero-container": {
+      "import": "./dist/esm/containers/hero-container.js",
+      "require": "./dist/cjs/containers/hero-container.js",
+      "types": "./dist/types/containers/hero-container.d.ts",
+      "source": "./src/js/containers/hero-container.ts"
+    },
+    "./containers/list-container": {
+      "import": "./dist/esm/containers/list-container.js",
+      "require": "./dist/cjs/containers/list-container.js",
+      "types": "./dist/types/containers/list-container.d.ts",
+      "source": "./src/js/containers/list-container.ts"
+    },
+    "./containers/proportional-container": {
+      "import": "./dist/esm/containers/proportional-container.js",
+      "require": "./dist/cjs/containers/proportional-container.js",
+      "types": "./dist/types/containers/proportional-container.d.ts",
+      "source": "./src/js/containers/proportional-container.ts"
+    },
+    "./containers/scroll-container": {
+      "import": "./dist/esm/containers/scroll-container.js",
+      "require": "./dist/cjs/containers/scroll-container.js",
+      "types": "./dist/types/containers/scroll-container.d.ts",
+      "source": "./src/js/containers/scroll-container.ts"
+    },
+    "./containers/slide-container": {
+      "import": "./dist/esm/containers/slide-container.js",
+      "require": "./dist/cjs/containers/slide-container.js",
+      "types": "./dist/types/containers/slide-container.d.ts",
+      "source": "./src/js/containers/slide-container.ts"
+    },
+    "./containers": {
+      "import": "./dist/esm/containers.js",
+      "require": "./dist/cjs/containers.js",
+      "types": "./dist/types/containers.d.ts",
+      "source": "./src/js/containers.ts"
+    },
+    "./controllers/controller": {
+      "import": "./dist/esm/controllers/controller.js",
+      "require": "./dist/cjs/controllers/controller.js",
+      "types": "./dist/types/controllers/controller.d.ts",
+      "source": "./src/js/controllers/controller.ts"
+    },
+    "./controllers/title-controller": {
+      "import": "./dist/esm/controllers/title-controller.js",
+      "require": "./dist/cjs/controllers/title-controller.js",
+      "types": "./dist/types/controllers/title-controller.d.ts",
+      "source": "./src/js/controllers/title-controller.ts"
+    },
+    "./controllers": {
+      "import": "./dist/esm/controllers.js",
+      "require": "./dist/cjs/controllers.js",
+      "types": "./dist/types/controllers.d.ts",
+      "source": "./src/js/controllers.ts"
+    },
+    "./fields": {
+      "import": "./dist/esm/fields.js",
+      "require": "./dist/cjs/fields.js",
+      "types": "./dist/types/fields.d.ts",
+      "source": "./src/js/fields.ts"
+    },
+    "./goat": {
+      "import": "./dist/esm/goat.js",
+      "require": "./dist/cjs/goat.js",
+      "types": "./dist/types/goat.d.ts",
+      "source": "./src/js/goat.ts"
+    },
+    "./hooks/use-classes": {
+      "import": "./dist/esm/hooks/use-classes.js",
+      "require": "./dist/cjs/hooks/use-classes.js",
+      "types": "./dist/types/hooks/use-classes.d.ts",
+      "source": "./src/js/hooks/use-classes.ts"
+    },
+    "./hooks/use-event-handler": {
+      "import": "./dist/esm/hooks/use-event-handler.js",
+      "require": "./dist/cjs/hooks/use-event-handler.js",
+      "types": "./dist/types/hooks/use-event-handler.d.ts",
+      "source": "./src/js/hooks/use-event-handler.ts"
+    },
+    "./index": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
       "types": "./dist/types/index.d.ts",
-      "source": "./src"
+      "source": "./src/js/index.ts"
     },
-    "./esm/*": "./dist/esm/*",
-    "./cjs/*": "./dist/cjs/*",
-    "./esm/app-controller": "./dist/esm/app-controller.js",
-    "./esm/app-icons-v1.0/selection": "./dist/esm/app-icons-v1.0/selection.json",
-    "./esm/component": "./dist/esm/component.js",
-    "./esm/components": "./dist/esm/components.js",
-    "./esm/containers/container": "./dist/esm/containers/container.js",
-    "./esm/containers/details-container": "./dist/esm/containers/details-container.js",
-    "./esm/containers/floating-container": "./dist/esm/containers/floating-container.js",
-    "./esm/containers/form-container": "./dist/esm/containers/form-container.js",
-    "./esm/containers/goat-container": "./dist/esm/containers/goat-container.js",
-    "./esm/containers/grid-container": "./dist/esm/containers/grid-container.js",
-    "./esm/containers/hero-container": "./dist/esm/containers/hero-container.js",
-    "./esm/containers/list-container": "./dist/esm/containers/list-container.js",
-    "./esm/containers/proportional-container": "./dist/esm/containers/proportional-container.js",
-    "./esm/containers/scroll-container": "./dist/esm/containers/scroll-container.js",
-    "./esm/containers/slide-container": "./dist/esm/containers/slide-container.js",
-    "./esm/containers": "./dist/esm/containers.js",
-    "./esm/controllers/controller": "./dist/esm/controllers/controller.js",
-    "./esm/controllers/title-controller": "./dist/esm/controllers/title-controller.js",
-    "./esm/controllers": "./dist/esm/controllers.js",
-    "./esm/fields": "./dist/esm/fields.js",
-    "./esm/goat": "./dist/esm/goat.js",
-    "./esm/hooks/use-classes": "./dist/esm/hooks/use-classes.js",
-    "./esm/hooks/use-event-handler": "./dist/esm/hooks/use-event-handler.js",
-    "./esm/index": "./dist/esm/index.js",
-    "./esm/media/icons": "./dist/esm/media/icons.js",
-    "./esm/media/image": "./dist/esm/media/image.js",
-    "./esm/media/svg-imports": "./dist/esm/media/svg-imports.js",
-    "./esm/media/svg": "./dist/esm/media/svg.js",
-    "./esm/media/video": "./dist/esm/media/video.js",
-    "./esm/media/youtube-video": "./dist/esm/media/youtube-video.js",
-    "./esm/media": "./dist/esm/media.js",
-    "./esm/navigation/react-router-link": "./dist/esm/navigation/react-router-link.js",
-    "./esm/navigation/react-router-navlink": "./dist/esm/navigation/react-router-navlink.js",
-    "./esm/navigation": "./dist/esm/navigation.js",
-    "./esm/react-router-schema/react-router-schema": "./dist/esm/react-router-schema/react-router-schema.js",
-    "./esm/react-router-schema/route": "./dist/esm/react-router-schema/route.js",
-    "./esm/react-router-schema/with-route-wrapper": "./dist/esm/react-router-schema/with-route-wrapper.js",
-    "./esm/tables": "./dist/esm/tables.js",
-    "./cjs/app-controller": "./dist/cjs/app-controller.js",
-    "./cjs/app-icons-v1.0/selection": "./dist/cjs/app-icons-v1.0/selection.json",
-    "./cjs/component": "./dist/cjs/component.js",
-    "./cjs/components": "./dist/cjs/components.js",
-    "./cjs/containers/container": "./dist/cjs/containers/container.js",
-    "./cjs/containers/details-container": "./dist/cjs/containers/details-container.js",
-    "./cjs/containers/floating-container": "./dist/cjs/containers/floating-container.js",
-    "./cjs/containers/form-container": "./dist/cjs/containers/form-container.js",
-    "./cjs/containers/goat-container": "./dist/cjs/containers/goat-container.js",
-    "./cjs/containers/grid-container": "./dist/cjs/containers/grid-container.js",
-    "./cjs/containers/hero-container": "./dist/cjs/containers/hero-container.js",
-    "./cjs/containers/list-container": "./dist/cjs/containers/list-container.js",
-    "./cjs/containers/proportional-container": "./dist/cjs/containers/proportional-container.js",
-    "./cjs/containers/scroll-container": "./dist/cjs/containers/scroll-container.js",
-    "./cjs/containers/slide-container": "./dist/cjs/containers/slide-container.js",
-    "./cjs/containers": "./dist/cjs/containers.js",
-    "./cjs/controllers/controller": "./dist/cjs/controllers/controller.js",
-    "./cjs/controllers/title-controller": "./dist/cjs/controllers/title-controller.js",
-    "./cjs/controllers": "./dist/cjs/controllers.js",
-    "./cjs/fields": "./dist/cjs/fields.js",
-    "./cjs/goat": "./dist/cjs/goat.js",
-    "./cjs/hooks/use-classes": "./dist/cjs/hooks/use-classes.js",
-    "./cjs/hooks/use-event-handler": "./dist/cjs/hooks/use-event-handler.js",
-    "./cjs/index": "./dist/cjs/index.js",
-    "./cjs/media/icons": "./dist/cjs/media/icons.js",
-    "./cjs/media/image": "./dist/cjs/media/image.js",
-    "./cjs/media/svg-imports": "./dist/cjs/media/svg-imports.js",
-    "./cjs/media/svg": "./dist/cjs/media/svg.js",
-    "./cjs/media/video": "./dist/cjs/media/video.js",
-    "./cjs/media/youtube-video": "./dist/cjs/media/youtube-video.js",
-    "./cjs/media": "./dist/cjs/media.js",
-    "./cjs/navigation/react-router-link": "./dist/cjs/navigation/react-router-link.js",
-    "./cjs/navigation/react-router-navlink": "./dist/cjs/navigation/react-router-navlink.js",
-    "./cjs/navigation": "./dist/cjs/navigation.js",
-    "./cjs/react-router-schema/react-router-schema": "./dist/cjs/react-router-schema/react-router-schema.js",
-    "./cjs/react-router-schema/route": "./dist/cjs/react-router-schema/route.js",
-    "./cjs/react-router-schema/with-route-wrapper": "./dist/cjs/react-router-schema/with-route-wrapper.js",
-    "./cjs/tables": "./dist/cjs/tables.js"
+    "./media/icons": {
+      "import": "./dist/esm/media/icons.js",
+      "require": "./dist/cjs/media/icons.js",
+      "types": "./dist/types/media/icons.d.ts",
+      "source": "./src/js/media/icons.ts"
+    },
+    "./media/image": {
+      "import": "./dist/esm/media/image.js",
+      "require": "./dist/cjs/media/image.js",
+      "types": "./dist/types/media/image.d.ts",
+      "source": "./src/js/media/image.ts"
+    },
+    "./media/svg-imports": {
+      "import": "./dist/esm/media/svg-imports.js",
+      "require": "./dist/cjs/media/svg-imports.js",
+      "types": "./dist/types/media/svg-imports.d.ts",
+      "source": "./src/js/media/svg-imports.ts"
+    },
+    "./media/svg": {
+      "import": "./dist/esm/media/svg.js",
+      "require": "./dist/cjs/media/svg.js",
+      "types": "./dist/types/media/svg.d.ts",
+      "source": "./src/js/media/svg.ts"
+    },
+    "./media/video": {
+      "import": "./dist/esm/media/video.js",
+      "require": "./dist/cjs/media/video.js",
+      "types": "./dist/types/media/video.d.ts",
+      "source": "./src/js/media/video.ts"
+    },
+    "./media/youtube-video": {
+      "import": "./dist/esm/media/youtube-video.js",
+      "require": "./dist/cjs/media/youtube-video.js",
+      "types": "./dist/types/media/youtube-video.d.ts",
+      "source": "./src/js/media/youtube-video.ts"
+    },
+    "./media": {
+      "import": "./dist/esm/media.js",
+      "require": "./dist/cjs/media.js",
+      "types": "./dist/types/media.d.ts",
+      "source": "./src/js/media.ts"
+    },
+    "./navigation/react-router-link": {
+      "import": "./dist/esm/navigation/react-router-link.js",
+      "require": "./dist/cjs/navigation/react-router-link.js",
+      "types": "./dist/types/navigation/react-router-link.d.ts",
+      "source": "./src/js/navigation/react-router-link.ts"
+    },
+    "./navigation/react-router-navlink": {
+      "import": "./dist/esm/navigation/react-router-navlink.js",
+      "require": "./dist/cjs/navigation/react-router-navlink.js",
+      "types": "./dist/types/navigation/react-router-navlink.d.ts",
+      "source": "./src/js/navigation/react-router-navlink.ts"
+    },
+    "./navigation": {
+      "import": "./dist/esm/navigation.js",
+      "require": "./dist/cjs/navigation.js",
+      "types": "./dist/types/navigation.d.ts",
+      "source": "./src/js/navigation.ts"
+    },
+    "./react-router-schema/react-router-schema": {
+      "import": "./dist/esm/react-router-schema/react-router-schema.js",
+      "require": "./dist/cjs/react-router-schema/react-router-schema.js",
+      "types": "./dist/types/react-router-schema/react-router-schema.d.ts",
+      "source": "./src/js/react-router-schema/react-router-schema.ts"
+    },
+    "./react-router-schema/route": {
+      "import": "./dist/esm/react-router-schema/route.js",
+      "require": "./dist/cjs/react-router-schema/route.js",
+      "types": "./dist/types/react-router-schema/route.d.ts",
+      "source": "./src/js/react-router-schema/route.ts"
+    },
+    "./react-router-schema/with-route-wrapper": {
+      "import": "./dist/esm/react-router-schema/with-route-wrapper.js",
+      "require": "./dist/cjs/react-router-schema/with-route-wrapper.js",
+      "types": "./dist/types/react-router-schema/with-route-wrapper.d.ts",
+      "source": "./src/js/react-router-schema/with-route-wrapper.ts"
+    },
+    "./tables": {
+      "import": "./dist/esm/tables.js",
+      "require": "./dist/cjs/tables.js",
+      "types": "./dist/types/tables.d.ts",
+      "source": "./src/js/tables.ts"
+    }
   },
   "directories": {
     "ts": "src",
@@ -115,7 +261,7 @@
     "@floating-ui/react": "^0.27.5",
     "@splidejs/react-splide": "^0.7.12",
     "css-element-queries": "^1.2.3",
-    "dbl-utils": "^1.0.10",
+    "dbl-utils": "^1.0.11",
     "html-react-parser": "^5.2.2",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",

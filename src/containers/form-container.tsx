@@ -1,6 +1,6 @@
 import React, { createRef } from "react";
 
-import { eventHandler } from "dbl-utils";
+import eventHandler from "dbl-utils/event-handler";
 
 import Component, { ComponentProps, ComponentState } from "../component";
 

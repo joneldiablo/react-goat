@@ -2,7 +2,10 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import parseReact, { domToReact, attributesToProps } from "html-react-parser";
 
-import { hash, t, formatValue, deepMerge } from "dbl-utils";
+import { deepMerge } from "dbl-utils/object-mutation";
+import t from "dbl-utils/i18n";
+import formatValue from "dbl-utils/format-value";
+import { hash } from "dbl-utils/utils";
 
 import Icons from "./media/icons";
 import COMPONENTS from "./components";

@@ -9,7 +9,8 @@ import {
   useLocation,
 } from "react-router-dom";
 
-import { hash, eventHandler } from "dbl-utils";
+import eventHandler from "dbl-utils/event-handler";
+import { hash } from "dbl-utils/utils";
 
 import controllers from "../controllers";
 import withRouteWrapper from "./with-route-wrapper";

@@ -2,7 +2,7 @@ import React from "react";
 import YouTube, { YouTubeProps } from "react-youtube";
 import Component, { ComponentProps } from "../component";
 import AspectRatioContainer from "../containers/proportional-container";
-import { splitAndFlat } from "dbl-utils";
+import { splitAndFlat } from "dbl-utils/utils";
 
 interface YoutubeVideoComponentProps extends ComponentProps, YouTubeProps {
   ratio?: number;

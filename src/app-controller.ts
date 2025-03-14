@@ -1,12 +1,12 @@
 import React from "react";
 import urlJoin from "url-join";
 
+import { deepMerge } from "dbl-utils/object-mutation";
+import resolveRefs from "dbl-utils/resolve-refs";
+import { randomS4 } from "dbl-utils/utils";
+import eventHandler from "dbl-utils/event-handler";
+import { flatten } from "dbl-utils/flat";
 import {
-  flatten,
-  randomS4,
-  resolveRefs,
-  deepMerge,
-  eventHandler,
   addDictionary,
   addFormatDate,
   addFormatNumber,
@@ -14,7 +14,7 @@ import {
   getLang,
   setLang,
   addFormatDateTime
-} from "dbl-utils";
+} from "dbl-utils/i18n";
 
 import { addIcons } from "./media/icons";
 import { addComponents } from "./components";

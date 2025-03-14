@@ -1,6 +1,7 @@
 import React from "react";
 
-import { eventHandler, splitAndFlat } from "dbl-utils";
+import eventHandler from "dbl-utils/event-handler";
+import { splitAndFlat } from "dbl-utils/utils";
 
 import Component, { ComponentProps, ComponentState } from "../component";
 

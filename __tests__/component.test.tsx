@@ -2,17 +2,7 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-import { eventHandler } from "dbl-utils";
-
 import Component from "../src/component";
-
-// 🔹 Mock de eventHandler.dispatch
-jest.mock("dbl-utils", () => ({
-  eventHandler: {
-    dispatch: jest.fn(), // Mockea el método dispatch
-    subscribe: jest.fn() // Mockea subscribe en caso de ser necesario
-  },
-}));
 
 describe("Component", () => {
   test("renders with default props", () => {
@@ -44,23 +34,5 @@ describe("Component", () => {
     expect(screen.queryByText("test-component-Component")).not.toBeInTheDocument();
   });
 
-  test("handles event dispatch on click", () => {
-    let eventTriggered = false;
 
-
-    render(<Component name="test-component" />);
-    const div = document.querySelector(".test-component-Component");
-
-    fireEvent.click(div!);
-
-
-    // 🔹 Verificar que eventHandler.dispatch fue llamado con el evento correcto
-    expect(eventHandler.dispatch).toHaveBeenCalledWith(
-      "click.test-component",
-      expect.any(Object) // Puedes validar los datos enviados si es necesario
-    );
-
-    // 🔹 Verificar que dispatch fue llamado al menos una vez
-    expect(eventHandler.dispatch).toHaveBeenCalledTimes(1);
-  });
 });

@@ -21,7 +21,12 @@
     "skipLibCheck": true,
     "outDir": "./dist/cjs",
     "jsx": "react-jsx",
-    "allowJs": true
+    "allowJs": true,
+    "typeRoots": [
+      "./src/types/**/*.d.ts",
+      "./node_modules/@types",
+      "./node_modules/@splidejs/react-splide/dist/types/**/*.d.ts"
+    ]
   },
   "include": [
     "src"

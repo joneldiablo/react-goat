@@ -8,7 +8,7 @@ export { default as HeroContainer } from "./containers/hero-container";
 export { default as ListContainer } from "./containers/list-container";
 export { default as ProportionalContainer } from "./containers/proportional-container";
 export { default as ScrollContainer } from "./containers/scroll-container";
-export { default as SlideContainer } from "./containers/slide-container";
+//export { default as SlideContainer } from "./containers/slide-container";
 
 export { default as Controller } from "./controllers/controller";
 export { default as TitleController } from "./controllers/title-controller";
@@ -41,7 +41,7 @@ export * from "./containers/hero-container";
 export * from "./containers/list-container";
 export * from "./containers/proportional-container";
 export * from "./containers/scroll-container";
-export * from "./containers/slide-container";
+//export * from "./containers/slide-container";
 
 export * from "./controllers/controller";
 export * from "./controllers/title-controller";

@@ -4,7 +4,7 @@ import { Splide, SplideSlide, SplideProps } from '@splidejs/react-splide';
 import Container, { ContainerProps, ContainerState } from "./container";
 
 export interface SlideContainerProps extends ContainerProps {
-  slider?: SplideProps;
+  slider?: any;
 }
 
 export interface SlideContainerState extends ContainerState { }
@@ -33,7 +33,7 @@ export default class SlideContainer<
   };
 
   content(children: React.ReactNode = this.props.children): any {
-    const attrs: SplideProps = this.props.slider || {};
+    const attrs: any = this.props.slider || {};
     const arrChildren = React.Children.toArray(children);
 
     if (arrChildren.length <= (attrs.options?.perPage || 1)) {

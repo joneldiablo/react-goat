@@ -1,18 +1,18 @@
 import Component, { ComponentProps } from "./component";
 import { addComponents } from "./components";
-import Container from "./containers/container";
-import FloatingContainer from "./containers/floating-container";
-import GoatContainer from "./containers/goat-container";
+import Link from "./navigation/react-router-link";
+import NavLink from "./navigation/react-router-navlink";
 
-const CONTAINERS: Record<string, typeof Container | React.FC<ComponentProps>> = {
-  Container,
-  FloatingContainer,
-  GoatContainer
+export type NavigationComponents = Record<string, typeof Component | React.FC<ComponentProps> | any>;
+
+const NAVIGATION_COMPONENTS: NavigationComponents = {
+  Link,
+  NavLink,
 };
 
-export const addContainers = (containers: Record<string, typeof Container> | React.FC<ComponentProps>) => {
-  Object.assign(CONTAINERS, containers);
-  addComponents(containers as Record<string, typeof Component<any, any>>);
+export const addContainers = (navigationComponents: NavigationComponents) => {
+  Object.assign(NAVIGATION_COMPONENTS, navigationComponents);
+  addComponents(navigationComponents as Record<string, typeof Component<any, any>>);
 }
 
-export default CONTAINERS;
+export default NAVIGATION_COMPONENTS;

@@ -1,18 +1,14 @@
 import Component, { ComponentProps } from "./component";
 import { addComponents } from "./components";
-import Container from "./containers/container";
-import FloatingContainer from "./containers/floating-container";
-import GoatContainer from "./containers/goat-container";
 
-const CONTAINERS: Record<string, typeof Container | React.FC<ComponentProps>> = {
-  Container,
-  FloatingContainer,
-  GoatContainer
+export type Tables = Record<string, typeof Component | React.FC<ComponentProps> | any>;
+
+const TABLES: Tables = {
 };
 
-export const addContainers = (containers: Record<string, typeof Container> | React.FC<ComponentProps>) => {
-  Object.assign(CONTAINERS, containers);
-  addComponents(containers as Record<string, typeof Component<any, any>>);
+export const addContainers = (tables: Tables) => {
+  Object.assign(TABLES, tables);
+  addComponents(tables as Record<string, typeof Component<any, any>>);
 }
 
-export default CONTAINERS;
+export default TABLES;

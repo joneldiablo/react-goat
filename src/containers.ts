@@ -9,6 +9,9 @@ import GoatContainer from "./containers/goat-container";
 import GridContainer from "./containers/grid-container";
 import HeroContainer from "./containers/hero-container";
 import ListContainer from "./containers/list-container";
+import AutoResponsiveContainer from "./containers/auto-responsive-container";
+import FullscreenContainer from "./containers/fullscreen-container";
+import DndListContainer from "./containers/dnd-list-container";
 import ProportionalContainer from "./containers/proportional-container";
 import ScrollContainer from "./containers/scroll-container";
 import SlideContainer from "./containers/slide-container";
@@ -22,6 +25,9 @@ const CONTAINERS: Record<string, typeof Container<any, any> | React.FC<Component
   GridContainer,
   HeroContainer,
   ListContainer,
+  AutoResponsiveContainer,
+  FullscreenContainer,
+  DndListContainer,
   ProportionalContainer,
   ScrollContainer,
   SlideContainer,
@@ -31,5 +37,4 @@ export const addContainers = (containers: Record<string, typeof Container> | Rea
   Object.assign(CONTAINERS, containers);
   addComponents(containers as Record<string, typeof Component<any, any>>);
 }
-
-export default CONTAINERS;
+export default CONTAINERS;

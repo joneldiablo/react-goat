@@ -1,6 +1,6 @@
 {
   "name": "@farm-js/react-goat",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "How did it get there?",
   "access": "public",
   "main": "dist/cjs/index.js",
@@ -37,6 +37,12 @@
       "types": "./dist/types/components.d.ts",
       "source": "./src/js/components.ts"
     },
+    "./containers/auto-responsive-container": {
+      "import": "./dist/esm/containers/auto-responsive-container.js",
+      "require": "./dist/cjs/containers/auto-responsive-container.js",
+      "types": "./dist/types/containers/auto-responsive-container.d.ts",
+      "source": "./src/js/containers/auto-responsive-container.ts"
+    },
     "./containers/container": {
       "import": "./dist/esm/containers/container.js",
       "require": "./dist/cjs/containers/container.js",
@@ -49,6 +55,12 @@
       "types": "./dist/types/containers/details-container.d.ts",
       "source": "./src/js/containers/details-container.ts"
     },
+    "./containers/dnd-list-container": {
+      "import": "./dist/esm/containers/dnd-list-container.js",
+      "require": "./dist/cjs/containers/dnd-list-container.js",
+      "types": "./dist/types/containers/dnd-list-container.d.ts",
+      "source": "./src/js/containers/dnd-list-container.ts"
+    },
     "./containers/floating-container": {
       "import": "./dist/esm/containers/floating-container.js",
       "require": "./dist/cjs/containers/floating-container.js",
@@ -60,6 +72,12 @@
       "require": "./dist/cjs/containers/form-container.js",
       "types": "./dist/types/containers/form-container.d.ts",
       "source": "./src/js/containers/form-container.ts"
+    },
+    "./containers/fullscreen-container": {
+      "import": "./dist/esm/containers/fullscreen-container.js",
+      "require": "./dist/cjs/containers/fullscreen-container.js",
+      "types": "./dist/types/containers/fullscreen-container.d.ts",
+      "source": "./src/js/containers/fullscreen-container.ts"
     },
     "./containers/goat-container": {
       "import": "./dist/esm/containers/goat-container.js",

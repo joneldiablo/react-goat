@@ -319,6 +319,5 @@
     "CommonJS",
     "frontend",
     "react"
-  ],
-  "packageManager": "yarn@4.9.2"
+  ]
 }

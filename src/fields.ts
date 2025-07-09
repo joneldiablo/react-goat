@@ -1,11 +1,13 @@
 import Component, { ComponentProps } from "./component";
 import { addComponents } from "./components";
 
-const FIELDS: Record<string, typeof Component | React.FC<ComponentProps>> = {
+export type Fields = Record<string, typeof Component | React.FC<ComponentProps> | any>;
+
+const FIELDS: Fields = {
 
 };
 
-export const addFields = (fields: Record<string, typeof Component> | React.FC<ComponentProps>) => {
+export const addFields = (fields: Fields) => {
   Object.assign(FIELDS, fields);
   addComponents(fields as Record<string, typeof Component<any, any>>);
 }

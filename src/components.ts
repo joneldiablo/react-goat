@@ -1,14 +1,19 @@
 import React from "react";
 
-
-import containers from "./containers";
 import Component from "./component";
-import Icons from "./media/icons";
+import containers from "./containers";
+import fields from "./fields";
+import mediaComponents from "./media";
+import navigationComponents from "./navigation";
+import Route from "./react-router-schema/route";
 
 const COMPONENTS: Record<string, React.FC<any> | typeof React.Component<any, any>> = {
   Component,
-  Icons,
-  ...containers
+  ...containers,
+  ...fields,
+  ...mediaComponents,
+  ...navigationComponents,
+  Route
 };
 
 export const addComponents = (components: Record<string, React.FC<any> | typeof React.Component | {} | false>) => {

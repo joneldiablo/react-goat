@@ -73,6 +73,10 @@ export default class GoatContainer<
   componentDidMount(): void {
     super.componentDidMount();
     this.events.forEach(([evtName, callback]) => eventHandler.subscribe(evtName, callback, this.name));
+    this.evalTemplate();
+  }
+
+  evalTemplate() {
     const definitions = deepMerge(
       this.theTemplate?.definitions || {},
       this.props.definitions || {}

@@ -261,11 +261,11 @@
     "@floating-ui/react": "^0.27.5",
     "@splidejs/react-splide": "^0.7.12",
     "react-youtube": "^10.1.0",
+    "dbl-utils": "^1.0.12",
     "swiper": "^11.2.5"
   },
   "dependencies": {
     "css-element-queries": "^1.2.3",
-    "dbl-utils": "^1.0.11",
     "html-react-parser": "^5.2.2",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",

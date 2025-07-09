@@ -1,4 +1,5 @@
 import React from "react";
+
 import Container, { ContainerProps, ContainerState } from "./container";
 
 export interface DndListContainerProps extends ContainerProps {
@@ -10,8 +11,9 @@ interface DndListContainerState extends ContainerState {
   dragIndex: number | null;
 }
 
-export default class DndListContainer<TProps extends DndListContainerProps = DndListContainerProps>
-  extends Container<TProps, DndListContainerState> {
+export default class DndListContainer<
+  TProps extends DndListContainerProps = DndListContainerProps
+> extends Container<TProps, DndListContainerState> {
   static jsClass = "DndListContainer";
 
   constructor(props: TProps) {
@@ -48,7 +50,7 @@ export default class DndListContainer<TProps extends DndListContainerProps = Dnd
     this.props.onChange?.(this.state.items);
   };
 
-  protected content(): React.ReactNode {
+  public content(children: React.ReactNode = this.props.children) {
     const { items } = this.state;
     return (
       <div>
@@ -63,6 +65,7 @@ export default class DndListContainer<TProps extends DndListContainerProps = Dnd
             {child as React.ReactNode}
           </div>
         ))}
+        {children}
       </div>
     );
   }

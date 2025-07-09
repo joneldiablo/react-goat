@@ -258,11 +258,11 @@
   "author": "joneldiablo",
   "license": "ISC",
   "peerDependencies": {
-    "@floating-ui/react": "^0.27.5",
+    "@floating-ui/react": "^0.27.13",
     "@splidejs/react-splide": "^0.7.12",
-    "react-youtube": "^10.1.0",
     "dbl-utils": "^1.0.12",
-    "swiper": "^11.2.5"
+    "react-youtube": "^10.1.0",
+    "swiper": "^11.2.10"
   },
   "dependencies": {
     "css-element-queries": "^1.2.3",

@@ -1,6 +1,14 @@
 import React from "react";
 import { render } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
+
+jest.mock("swiper/react", () => ({
+  Swiper: (p: any) => <div>{p.children}</div>,
+  SwiperSlide: (p: any) => <div className="swiper-slide">{p.children}</div>,
+}));
+jest.mock("swiper/modules", () => ({ Autoplay: {} }));
+jest.mock("@floating-ui/react", () => ({}));
 
 import Goat from "../src/goat";
 
@@ -57,8 +65,7 @@ describe("Goat Component", () => {
 
     const builtContent = goat.buildContent(content);
 
-    const { getByText } = render(<>{builtContent}</>);
-
+    const { getByText } = render(<MemoryRouter>{builtContent}</MemoryRouter>);
     expect(getByText("Excluded Content").closest("section")).toBeNull();
   });
 

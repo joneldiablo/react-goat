@@ -11,7 +11,13 @@ export interface Breakpoints {
 }
 
 export interface ContainerProps extends ComponentProps {
+  /**
+   * If `true` adds the `container-fluid` class when not using `fullWidth`.
+   */
   fluid?: boolean;
+  /**
+   * Avoids adding bootstrap container classes when `true`.
+   */
   fullWidth?: boolean;
   breakpoints?: Breakpoints;
   xsClasses?: string | string[];
@@ -42,6 +48,8 @@ export default class Container<
 
   static defaultProps: Partial<ContainerProps> = {
     ...Component.defaultProps,
+    fluid: true,
+    fullWidth: false,
     breakpoints: {
       xs: 0,
       sm: 576,
@@ -74,21 +82,20 @@ export default class Container<
   }
 
   updateSize() {
-    const localClasses = new Set(this.state.localClasses.split(" "));
+    const { fluid, fullWidth } = this.props;
+    const containerType = !fullWidth ? (fluid ? "container-fluid" : "container") : "";
 
-    Object.keys(this.props.breakpoints ?? {}).forEach((br) => localClasses.delete(br));
-    [this.breakpoint, "animate"].forEach((c) => c && localClasses.add(c));
+    const baseClasses = new Set(this.state.localClasses.split(" "));
 
-    this.setState({
-      localClasses: Array.from(localClasses).join(" "),
-    });
+    Object.keys(this.props.breakpoints ?? {}).forEach((br) => baseClasses.delete(br));
+    [containerType, this.breakpoint, "animate"].forEach((c) => c && baseClasses.add(c));
 
     const classesKey = (this.breakpoint ?? "") + "Classes" as keyof ContainerProps;
-    if (!this.addClasses(this.props[classesKey] as string | null)) {
-      this.setState({
-        localClasses: this.state.localClasses,
-      });
-    }
+    this.addClasses(this.props[classesKey] as string | null);
+
+    this.setState({
+      localClasses: Array.from(baseClasses).join(" "),
+    });
   }
 
   onResize(firstTime?: boolean | { width: number; height: number }) {
@@ -132,6 +139,12 @@ export default class Container<
     } else {
       clearTimeout(this.onResizeTimeout);
       this.onResizeTimeout = setTimeout(resizingFunc, 200);
+    }
+  }
+
+  componentDidUpdate(prevProps: TProps) {
+    if (prevProps.fluid !== this.props.fluid || prevProps.fullWidth !== this.props.fullWidth) {
+      this.updateSize();
     }
   }
 

@@ -33,6 +33,8 @@ export { default as withRouteWrapper } from "./react-router-schema/with-route-wr
 export { default as appGoatCtrl } from "./app-controller";
 export { default as Component } from "./component";
 export { default as Goat } from "./goat";
+export { default as ComplexComponent } from "./complex-component";
+export { default as ComplexResponsiveComponent } from "./complex-responsive-component";
 
 export * from "./containers/container";
 export * from "./containers/details-container";
@@ -72,3 +74,5 @@ export * from "./components";
 export * from "./containers";
 export * from "./controllers";
 export * from "./goat";
+export * from "./complex-component";
+export * from "./complex-responsive-component";

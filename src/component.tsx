@@ -8,7 +8,11 @@ export interface ComponentProps extends React.ComponentProps<any> {
   active?: boolean;
   classes?: Classes;
   name: string;
-  tag?: keyof JSX.IntrinsicElements | false | ExoticComponent<{ children?: ReactNode; }> | string;
+  tag?:
+    | keyof JSX.IntrinsicElements
+    | false
+    | ExoticComponent<{ children?: ReactNode }>
+    | string;
   ref?: React.Ref<any>;
 }
 
@@ -21,32 +25,36 @@ export default class Component<
   TProps extends ComponentProps = ComponentProps,
   TState extends ComponentState = ComponentState
 > extends React.Component<TProps, TState> {
-
-  static jsClass = 'Component';
+  static jsClass = "Component";
   static defaultProps: Partial<ComponentProps> = {
-    classes: '',
+    classes: "",
     style: {},
-    active: true
+    active: true,
   };
-  static slots? = undefined;
-  static dontBuildContent? = undefined;
-  static wrapper?: string | boolean = undefined;
+  static slots?: string[];
+  static dontBuildContent?: boolean;
+  static wrapper?: string | boolean;
 
-  protected tag: keyof JSX.IntrinsicElements | React.FC | typeof React.Component | ExoticComponent = 'div';
-  protected classes: string = '';
+  protected tag:
+    | keyof JSX.IntrinsicElements
+    | React.FC
+    | typeof React.Component
+    | ExoticComponent = "div";
+  protected classes: string = "";
   protected style: React.CSSProperties = {};
   protected name: string;
   protected ref = createRef<any>();
   protected ready?: NodeJS.Timeout;
-
   protected eventHandlers: Record<string, (...args: any[]) => void>;
+
+  state: TState;
 
   constructor(props: TProps) {
     super(props);
     this.name = `${this.props.name}-${(this.constructor as any).jsClass}`;
     this.state = {
-      localClasses: '',
-      localStyles: {}
+      localClasses: "",
+      localStyles: {},
     } as TState;
     this.onEvent = this.onEvent.bind(this);
     this.eventHandlers = {
@@ -57,41 +65,49 @@ export default class Component<
       onMouseEnter: this.onEvent,
       onMouseLeave: this.onEvent,
       onKeyDown: this.onEvent,
-      onLoad: this.onEvent
+      onLoad: this.onEvent,
     };
   }
 
-  protected setClasses(classes?: string | string[]): [Set<string>, Set<string>] {
-    const localClasses = new Set(this.state.localClasses.split(' ').filter(Boolean));
+  protected setClasses(
+    classes?: string | string[]
+  ): [Set<string>, Set<string>] {
+    const localClasses = new Set(
+      this.state.localClasses.split(" ").filter(Boolean)
+    );
     if (!classes) return [localClasses, new Set()];
-    const setClasses = new Set(Array.isArray(classes) ? classes.flatMap(c => c.split(' ')) : classes.split(' '));
+    const setClasses = new Set(
+      Array.isArray(classes)
+        ? classes.flatMap((c) => c.split(" "))
+        : classes.split(" ")
+    );
     return [localClasses, setClasses];
   }
 
   protected toggleClasses(classes?: string | string[]): boolean {
     if (!classes) return false;
     const [localClasses, setClasses] = this.setClasses(classes);
-    setClasses.forEach(c => {
+    setClasses.forEach((c) => {
       if (localClasses.has(c)) localClasses.delete(c);
       else localClasses.add(c);
     });
-    this.setState({ localClasses: Array.from(localClasses).join(' ') });
+    this.setState({ localClasses: Array.from(localClasses).join(" ") });
     return true;
   }
 
   protected addClasses(classes?: string | string[] | null): boolean {
     if (!classes) return false;
     const [localClasses, setClasses] = this.setClasses(classes);
-    setClasses.forEach(c => localClasses.add(c));
-    this.setState({ localClasses: Array.from(localClasses).join(' ') });
+    setClasses.forEach((c) => localClasses.add(c));
+    this.setState({ localClasses: Array.from(localClasses).join(" ") });
     return true;
   }
 
   protected deleteClasses(classes?: string | string[]): boolean {
     if (!classes) return false;
     const [localClasses, setClasses] = this.setClasses(classes);
-    setClasses.forEach(c => localClasses.delete(c));
-    this.setState({ localClasses: Array.from(localClasses).join(' ') });
+    setClasses.forEach((c) => localClasses.delete(c));
+    this.setState({ localClasses: Array.from(localClasses).join(" ") });
     return true;
   }
 
@@ -105,7 +121,10 @@ export default class Component<
 
   protected onEvent(e: Event): void {
     eventHandler.dispatch(`${e.type}.${this.props.name}`, {
-      [this.props.name]: { state: this.state, value: (e.target as HTMLInputElement).value }
+      [this.props.name]: {
+        state: this.state,
+        value: (e.target as HTMLInputElement).value,
+      },
     });
   }
 
@@ -120,21 +139,30 @@ export default class Component<
     if (Tag === false) return <>{content} </>;
     const TheTag = Tag as keyof JSX.IntrinsicElements;
 
-    const cn: (string | string[])[] = [(this.constructor as any).jsClass, name, this.name, this.classes, localClasses];
+    const cn: (string | string[])[] = [
+      (this.constructor as any).jsClass,
+      name,
+      this.name,
+      this.classes,
+      localClasses,
+    ];
     if (classes) {
-      if (typeof classes === 'string') cn.push(classes);
-      else if (Array.isArray(classes)) cn.push(classes.join(' '));
-      else cn.push(classes['.']);
+      if (typeof classes === "string") cn.push(classes);
+      else if (Array.isArray(classes)) cn.push(classes.join(" "));
+      else cn.push(classes["."]);
     }
 
     const s = { ...this.style, ...localStyles, ...style };
-    const props = Tag === React.Fragment ? {} : {
-      className: cn.filter(Boolean).join(' '),
-      style: s,
-      ref: this.ref,
-      ...this.eventHandlers,
-      ...this.componentProps
-    };
+    const props =
+      Tag === React.Fragment
+        ? {}
+        : {
+            className: cn.filter(Boolean).join(" "),
+            style: s,
+            ref: this.ref,
+            ...this.eventHandlers,
+            ...this.componentProps,
+          };
 
     return active ? <TheTag {...props}> {content}</TheTag> : <React.Fragment />;
   }

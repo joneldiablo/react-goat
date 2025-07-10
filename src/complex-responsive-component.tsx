@@ -1,4 +1,5 @@
 import ResizeSensor from "css-element-queries/src/ResizeSensor";
+
 import { eventHandler } from "dbl-utils";
 
 import ComplexComponent, {
@@ -34,7 +35,8 @@ export default class ComplexResponsiveComponent<
 
   componentDidMount(): void {
     super.componentDidMount();
-    if (this.ref) this.resizeSensor = new ResizeSensor(this.ref.current!, this.onResize);
+    if (this.ref)
+      this.resizeSensor = new ResizeSensor(this.ref.current!, this.onResize);
     this.onResize();
   }
 

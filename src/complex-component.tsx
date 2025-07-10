@@ -4,8 +4,14 @@ import { resolveRefs, eventHandler } from "dbl-utils";
 import Goat from "./goat";
 import Component, { ComponentProps, ComponentState } from "./component";
 
+export interface BasicSchemaType {
+  view: any;
+  definitions?: Record<string, any>;
+  data?: any;
+}
+
 export interface ComplexComponentProps extends ComponentProps {
-  schema?: { view: any; definitions?: Record<string, any>; data?: any };
+  schema?: BasicSchemaType;
   definitions?: Record<string, any>;
   rules?: Record<string, any>;
   childrenIn?: boolean;
@@ -22,7 +28,7 @@ export const nameSuffixes = (sfxs: string[] = []): Record<string, any> => {
   }, {});
 };
 
-const schemaDefault = {
+const schemaDefault: BasicSchemaType = {
   view: { name: "$nameDummy", content: "Remplazar esto" },
   definitions: {},
 };
@@ -52,17 +58,19 @@ export default class ComplexComponent<
   }
 
   componentDidMount(): void {
-    this.events.forEach((e) => eventHandler.subscribe(...e));
+    this.events.forEach((e) => eventHandler.subscribe(...e, this.name));
   }
 
   componentWillUnmount(): void {
-    this.events.forEach(([eName]) => eventHandler.unsubscribe(eName));
+    this.events.forEach(([eName]) =>
+      eventHandler.unsubscribe(eName, this.name)
+    );
   }
 
   buildView(): any {
     const { schema = schemaDefault, rules, definitions, ...all } = this.props;
     schema.data = all;
-    Object.assign(schema.definitions, definitions);
+    Object.assign(schema.definitions!, definitions);
     return resolveRefs(schema.view, schema, rules);
   }
 

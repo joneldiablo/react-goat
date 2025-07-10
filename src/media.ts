@@ -5,7 +5,6 @@ import Image from "./media/image";
 import Svg from "./media/svg";
 import SvgImports from "./media/svg-imports";
 import Video from "./media/video";
-import YoutubeVideo from "./media/youtube-video";
 
 export type MediaComponents = Record<string, typeof Component | React.FC<ComponentProps> | any>;
 
@@ -15,7 +14,6 @@ const MEDIA_COMPONENTS: MediaComponents = {
   Svg,
   SvgImports,
   Video,
-  YoutubeVideo,
 };
 
 export const addMediaComponents = (mediaComponents: MediaComponents) => {

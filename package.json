@@ -1,6 +1,6 @@
 {
   "name": "@farm-js/react-goat",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "How did it get there?",
   "access": "public",
   "main": "dist/cjs/index.js",

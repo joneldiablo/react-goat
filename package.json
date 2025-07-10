@@ -260,7 +260,6 @@
   "peerDependencies": {
     "@floating-ui/react": "^0.27.13",
     "@splidejs/react-splide": "^0.7.12",
-    "dbl-utils": "^1.0.12",
     "react-youtube": "^10.1.0",
     "swiper": "^11.2.5"
   },
@@ -271,9 +270,6 @@
     "@splidejs/react-splide": {
       "optional": true
     },
-    "dbl-utils": {
-      "optional": false
-    },
     "react-youtube": {
       "optional": true
     },
@@ -283,13 +279,14 @@
   },
   "dependencies": {
     "css-element-queries": "^1.2.3",
+    "dbl-utils": "^1.0.12",
     "html-react-parser": "^5.2.2",
     "prop-types": "^15.8.1",
-    "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icomoon": "^2.6.1",
-    "react-router": "^7.2.0",
     "react-router-dom": "^7.2.0",
+    "react-router": "^7.2.0",
+    "react": "^19.0.0",
     "url-join": "^5.0.0"
   },
   "devDependencies": {
@@ -312,13 +309,12 @@
     "@types/node": "^22.7.9",
     "@types/numeral": "^2.0.5",
     "@types/prop-types": "^15.7.14",
-    "@types/react-dom": "^19.0.4",
     "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
     "@types/uuid": "^10.0.0",
     "babel-jest": "^29.7.0",
-    "dbl-utils": "^1.0.12",
-    "jest-environment-jsdom": "^29.7.0",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "react-youtube": "^10.1.0",
     "supertest": "^7.0.0",
     "swiper": "^11.2.5",
@@ -339,6 +335,5 @@
     "CommonJS",
     "frontend",
     "react"
-  ],
-  "packageManager": "yarn@4.9.2"
+  ]
 }

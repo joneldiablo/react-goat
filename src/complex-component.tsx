@@ -74,7 +74,7 @@ export default class ComplexComponent<
     return resolveRefs(schema.view, schema, rules);
   }
 
-  mutations(sn: string): any {
+  mutations(sn: string, conf: Record<string, any>): any {
     return (this.state as any)[sn];
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "@farm-js/react-goat",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "How did it get there?",
   "access": "public",
   "main": "dist/cjs/index.js",
@@ -24,6 +24,18 @@
       "require": "./dist/cjs/app-icons-v1.0/selection.json",
       "types": "./dist/types/app-icons-v1.0/selection.d.ts",
       "source": "./src/js/app-icons-v1.0/selection.ts"
+    },
+    "./complex-component": {
+      "import": "./dist/esm/complex-component.js",
+      "require": "./dist/cjs/complex-component.js",
+      "types": "./dist/types/complex-component.d.ts",
+      "source": "./src/js/complex-component.ts"
+    },
+    "./complex-responsive-component": {
+      "import": "./dist/esm/complex-responsive-component.js",
+      "require": "./dist/cjs/complex-responsive-component.js",
+      "types": "./dist/types/complex-responsive-component.d.ts",
+      "source": "./src/js/complex-responsive-component.ts"
     },
     "./component": {
       "import": "./dist/esm/component.js",

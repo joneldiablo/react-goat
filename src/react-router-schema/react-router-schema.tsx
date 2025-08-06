@@ -37,6 +37,11 @@ export default class SchemaController extends React.Component<SchemaProps> {
 
   constructor(props: SchemaProps) {
     super(props);
+    // Initialize the routes hash so we can detect schema changes on updates
+    // We hash the incoming routes so that deep changes are detected. This mirrors
+    // the behaviour of the JS implementation in dbl-components where the hash
+    // is stored up front.
+    this.routesHash = hash(JSON.stringify(props.routes));
     this.buildRoutes();
   }
 
@@ -45,26 +50,41 @@ export default class SchemaController extends React.Component<SchemaProps> {
     const routesSchema = JSON.parse(schemaStr);
 
     let routes: any;
-    if (Array.isArray(routesSchema))
-      routes = routesSchema.map(this.views);
+    if (Array.isArray(routesSchema)) routes = routesSchema.map(this.views);
     else if (typeof routesSchema === "object" && routesSchema.name)
       routes = this.views(routesSchema);
     else if (typeof routesSchema === "object")
-      routes = Object.keys(routesSchema).map((name, i) => this.views({ name, ...routesSchema[name] }, i));
+      routes = Object.keys(routesSchema).map((name, i) =>
+        this.views({ name, ...routesSchema[name] }, i)
+      );
 
     this.routeNodes = routes;
+    // Update the stored hash whenever we rebuild the routes so that
+    // componentDidUpdate can compare against it.
+    this.routesHash = hash(JSON.stringify(this.props.routes));
   }
 
   componentDidUpdate(prevProps: SchemaProps) {
-    let newHash = hash(JSON.stringify(this.props.routes));
+    // Recalculate the hash for the current routes and compare with the
+    // previously stored value. If the schema has changed then rebuild
+    // our internal representation and force a re-render. Without
+    // forceUpdate the updates to routeNodes (a class property) would not
+    // trigger a re-render in React.
+    const newHash = hash(JSON.stringify(this.props.routes));
     if (this.routesHash !== newHash) {
       this.buildRoutes();
-      this.routesHash = newHash;
+      // forceUpdate ensures the component re-renders when the routes
+      // change. This mirrors the behaviour of the original implementation
+      // in dbl-components.
+      this.forceUpdate();
     }
   }
 
   views = (route: RouteProps, i?: number) => {
-    const Controller = controllers[route.component as keyof typeof controllers] || this.props.defaultController || controllers.Controller;
+    const Controller =
+      controllers[route.component as keyof typeof controllers] ||
+      this.props.defaultController ||
+      controllers.Controller;
     route.test = route.test || this.props.test;
     const WrappedController = withRouteWrapper(Controller, route);
 
@@ -73,8 +93,13 @@ export default class SchemaController extends React.Component<SchemaProps> {
     if (Array.isArray(route.routes)) subroutes = [];
     else if (typeof route.routes === "object") {
       subroutes = [];
-      const routesRecord = route.routes as Record<string, Omit<RouteProps, 'name'>>;
-      route.routes = Object.keys(routesRecord).map(name => ({ name, ...routesRecord[name] }) as any);
+      const routesRecord = route.routes as Record<
+        string,
+        Omit<RouteProps, "name">
+      >;
+      route.routes = Object.keys(routesRecord).map(
+        (name) => ({ name, ...routesRecord[name] } as any)
+      );
     }
 
     if (subroutes) {
@@ -101,17 +126,17 @@ export default class SchemaController extends React.Component<SchemaProps> {
         <WrappedController {...route}>
           {subroutes.length > 0 ? <Outlet /> : null}
         </WrappedController>
-      )
+      ),
     };
 
-    const key = i || typeof i === 'number' ? (i + '-' + route.name) : route.name;
+    const key = i || typeof i === "number" ? i + "-" + route.name : route.name;
 
     return (
       <Route key={key} {...routeProps}>
         {subroutes.length > 0 && subroutes}
       </Route>
     );
-  }
+  };
 
   render() {
     const { theme } = this.props;
@@ -121,9 +146,7 @@ export default class SchemaController extends React.Component<SchemaProps> {
     return (
       <>
         {!!theme && <link rel="stylesheet" type="text/css" href={theme} />}
-        <Routes>
-          {this.routeNodes}
-        </Routes>
+        <Routes>{this.routeNodes}</Routes>
       </>
     );
   }

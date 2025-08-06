@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import Component from "../src/component";
@@ -32,6 +32,25 @@ describe("Component", () => {
   test("does not render when active is false", () => {
     render(<Component name="test-component" active={false} />);
     expect(screen.queryByText("test-component-Component")).not.toBeInTheDocument();
+  });
+
+  test("manages classes through helpers", () => {
+    class TestComp extends Component {
+      exposeAdd(c: string) { this.addClasses(c); }
+      exposeDel(c: string) { this.deleteClasses(c); }
+      exposeToggle(c: string) { this.toggleClasses(c); }
+    }
+    const ref = React.createRef<TestComp>();
+    render(<TestComp name="cls" ref={ref} />);
+    const el = (ref.current as any).ref.current as HTMLElement;
+    act(() => ref.current!.exposeAdd("a b"));
+    expect(el.className).toContain("a");
+    expect(el.className).toContain("b");
+    act(() => ref.current!.exposeDel("a"));
+    expect(el.className).not.toContain("a");
+    act(() => ref.current!.exposeToggle("b c"));
+    expect(el.className).toContain("c");
+    expect(el.className).not.toContain("b");
   });
 
 

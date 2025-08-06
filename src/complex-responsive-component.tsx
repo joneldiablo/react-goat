@@ -7,11 +7,20 @@ import ComplexComponent, {
   ComplexComponentState,
 } from "./complex-component";
 
+/**
+ * Props for {@link ComplexResponsiveComponent}.
+ */
 export interface ComplexResponsiveComponentProps extends ComplexComponentProps {
+  /** Breakpoints map used to assign responsive classes. */
   breakpoints?: Record<string, number>;
+  /** Callback executed on resize events. */
   onResize?: (size: { width: number; height: number }) => void;
 }
 
+/**
+ * Extension of {@link ComplexComponent} that reacts to size changes and
+ * dispatches a `resize` event with breakpoint information.
+ */
 export default class ComplexResponsiveComponent<
   TProps extends ComplexResponsiveComponentProps = ComplexResponsiveComponentProps,
   TState extends ComplexComponentState = ComplexComponentState
@@ -46,6 +55,9 @@ export default class ComplexResponsiveComponent<
     this.resizeSensor?.detach();
   }
 
+  /**
+   * Handles element resize and updates breakpoint state.
+   */
   onResize = (): void => {
     clearTimeout(this.onResizeTimeout);
     this.onResizeTimeout = setTimeout(() => {

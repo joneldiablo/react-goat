@@ -10,19 +10,32 @@ import { hash } from "dbl-utils/utils";
 import Icons from "./media/icons";
 import COMPONENTS from "./components";
 
+/** Components that should not be wrapped in a `<section>` by default. */
 const excludeSectionWrapper: string[] = [
   "NavLink", "Image", "Link", "Icons", "SvgImports", "Action",
-  "DropdownButtonContainer", "ModalButtonContainer", "DropdownItem"
+  "DropdownButtonContainer", "ModalButtonContainer", "DropdownItem",
 ];
 
+/**
+ * Adds component names to the wrapper exclusion list.
+ *
+ * @example
+ * ```ts
+ * addWrapperExclusions(["CustomComponent"]);
+ * ```
+ */
 export function addWrapperExclusions(exclusion: string | string[]): void {
   excludeSectionWrapper.push(...[exclusion].flat());
 }
 
 /**
- * Clase utilizada para generar contenido dinámico en React a partir de una estructura de datos JSON.
+ * Utility class used to generate React content from a JSON structure.
  *
- * @class Goat
+ * @example
+ * ```tsx
+ * const goat = new Goat({ name: "root" });
+ * goat.buildContent({ name: "greeting", component: "Component", content: "Hi" });
+ * ```
  */
 export default class Goat {
   protected parseOpts = {
@@ -73,6 +86,12 @@ export default class Goat {
     this.buildContent = this.buildContent.bind(this);
   }
 
+  /**
+   * Builds React content from a JSON-like structure.
+   *
+   * @param content - Section definition or primitive value.
+   * @param index - Optional index used as a React key fallback.
+   */
   public buildContent(content: any, index?: number): React.ReactNode {
     if (!content) return false;
     if (typeof content !== 'object') {
@@ -107,6 +126,12 @@ export default class Goat {
     return builded;
   }
 
+  /**
+   * Renders a single section definition.
+   *
+   * @param sr - Section record to render.
+   * @param i - Optional index used as key.
+   */
   protected sections(sr: any, i?: number): React.ReactNode {
 
     const m = (typeof this.mutations === 'function' && this.mutations(sr.name, sr)) || {};

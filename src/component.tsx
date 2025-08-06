@@ -1,23 +1,50 @@
 import React, { createRef, ReactNode, JSX, ExoticComponent } from "react";
 import eventHandler from "dbl-utils/event-handler";
 
+/**
+ * Accepted class value formats.
+ */
 export type Classes = string | string[] | Record<string, string | string[]>;
 
+/**
+ * Props for {@link Component}.
+ *
+ * @example
+ * ```tsx
+ * class MyComponent extends Component {
+ *   static jsClass = "MyComponent";
+ * }
+ * <MyComponent name="demo" />
+ * ```
+ */
 export interface ComponentProps extends React.ComponentProps<any> {
+  /** Extra props passed to the rendered tag. */
   _props?: Record<string, any>;
+  /** Whether the component should render its content. */
   active?: boolean;
+  /** Additional CSS classes to apply. */
   classes?: Classes;
+  /** Base name for the component instance. */
   name: string;
+  /**
+   * Tag or component used for rendering. `false` renders a fragment.
+   */
   tag?:
     | keyof JSX.IntrinsicElements
     | false
     | ExoticComponent<{ children?: ReactNode }>
     | string;
+  /** Optional ref forwarded to the element. */
   ref?: React.Ref<any>;
 }
 
+/**
+ * Local state for {@link Component}.
+ */
 export interface ComponentState {
+  /** Local CSS classes handled internally. */
   localClasses: string;
+  /** Local styles handled internally. */
   localStyles: React.CSSProperties;
 }
 
@@ -91,7 +118,9 @@ export default class Component<
       if (localClasses.has(c)) localClasses.delete(c);
       else localClasses.add(c);
     });
-    this.setState({ localClasses: Array.from(localClasses).join(" ") });
+    this.setState({
+      localClasses: Array.from(localClasses).filter(Boolean).join(" "),
+    });
     return true;
   }
 
@@ -99,7 +128,9 @@ export default class Component<
     if (!classes) return false;
     const [localClasses, setClasses] = this.setClasses(classes);
     setClasses.forEach((c) => localClasses.add(c));
-    this.setState({ localClasses: Array.from(localClasses).join(" ") });
+    this.setState({
+      localClasses: Array.from(localClasses).filter(Boolean).join(" "),
+    });
     return true;
   }
 
@@ -107,7 +138,9 @@ export default class Component<
     if (!classes) return false;
     const [localClasses, setClasses] = this.setClasses(classes);
     setClasses.forEach((c) => localClasses.delete(c));
-    this.setState({ localClasses: Array.from(localClasses).join(" ") });
+    this.setState({
+      localClasses: Array.from(localClasses).filter(Boolean).join(" "),
+    });
     return true;
   }
 

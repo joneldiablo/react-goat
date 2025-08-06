@@ -22,6 +22,8 @@ export { default as Video } from "./media/video";
 export { default as Link } from "./navigation/react-router-link";
 export { default as NavLink } from "./navigation/react-router-navlink";
 
+export { p, t, n, cur, src, setDictionary, SelectLanguage } from "./i18n";
+
 export { default as Route } from "./react-router-schema/route";
 export { default as SchemaController } from "./react-router-schema/react-router-schema";
 export { default as withRouteWrapper } from "./react-router-schema/with-route-wrapper";
@@ -32,6 +34,7 @@ export { default as Goat } from "./goat";
 export { default as GoatComponent } from "./goat-component";
 export { default as ComplexComponent } from "./complex-component";
 export { default as ComplexResponsiveComponent } from "./complex-responsive-component";
+export { Chartjs, BarChartjs, DoughnutChartjs, LineChartjs, ScatterChartjs, addGraphs } from "./chartjs";
 
 export * from "./containers/container";
 export * from "./containers/details-container";
@@ -57,6 +60,8 @@ export * from "./media/video";
 export * from "./navigation/react-router-link";
 export * from "./navigation/react-router-navlink";
 
+export * from "./i18n";
+
 export * from "./react-router-schema/react-router-schema";
 export * from "./react-router-schema/route";
 export * from "./react-router-schema/with-route-wrapper";
@@ -70,3 +75,4 @@ export * from "./goat";
 export * from "./goat-component";
 export * from "./complex-component";
 export * from "./complex-responsive-component";
+export * from "./chartjs";

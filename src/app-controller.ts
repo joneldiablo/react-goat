@@ -23,7 +23,7 @@ import { addFields } from "./fields";
 import Controller from "./controllers/controller";
 import { RouteProps } from "./react-router-schema/route";
 
-// Estado global almacenado en memoria
+// Global state kept in memory
 const GLOBAL_STATE: Record<string, any> = {};
 
 export interface RequestAppGoat extends RequestInit {
@@ -34,7 +34,7 @@ export interface RequestAppGoat extends RequestInit {
 }
 
 /**
- * Propiedades del constructor principal del AppController
+ * Constructor properties for `AppGoatController`.
  */
 export interface AppGoatControllerProps {
   icons?: { icons: any[]; } | false;
@@ -76,35 +76,41 @@ export class AppGoatError extends Error {
 }
 
 /**
- * Clase principal para controlar la aplicación
+ * Main controller that manages application configuration and global state.
+ *
+ * @example
+ * ```ts
+ * const app = new AppGoatController();
+ * app.set("token", "123");
+ * ```
  */
 export class AppGoatController {
 
-  // Almacena controladores AbortController de peticiones activas
+  // Stores AbortControllers for active requests
   fetchList: Record<string, AppGoatAbortController> = {};
 
-  // Almacena definiciones globales
+  // Stores global definitions
   globalDefinitions: Array<any> = [];
 
-  // Almacena rutas por nombre de vista
+  // Stores routes indexed by view name
   routes: Record<string, any> = {};
 
-  // Contador temporal de rutas encontradas durante inicialización
+  // Temporary counter for routes found during initialization
   tmpRoutesFound: number = 0;
 
-  // Esquema raíz procesado con rutas anidadas
+  // Root schema processed with nested routes
   rootSchema?: RouteProps;
 
-  // Identificador random para esta instancia
+  // Random identifier for this instance
   random: string = randomS4();
 
-  // Propiedades pasadas al controlador
+  // Properties passed to the controller
   props?: AppGoatControllerProps;
 
-  // Prefijo usado para almacenamiento local y de sesión
+  // Prefix used for local and session storage
   prefixStorage: string = '_gs.';
 
-  // Función opcional para actualizar estado externo
+  // Optional function to update external state
   update?: (key: string) => void;
 
   constructor(props?: AppGoatControllerProps) {
@@ -112,9 +118,9 @@ export class AppGoatController {
   }
 
   /**
-   * Inicializa la configuración principal del AppController.
+   * Initializes the AppGoatController configuration.
    *
-   * @param props - Propiedades iniciales para configurar la aplicación.
+   * @param props - Initial properties to configure the application.
    */
   init(props: AppGoatControllerProps = {}): void {
     const {
@@ -147,7 +153,7 @@ export class AppGoatController {
       initialState = {}
     } = props;
 
-    // Guardar propiedades iniciales completas
+    // Save complete initial properties
     this.props = {
       definitions,
       routes,
@@ -172,15 +178,15 @@ export class AppGoatController {
       initialState
     };
 
-    // Registrar íconos globales si existen
+    // Register global icons if provided
     if (icons) addIcons(icons);
 
-    // Combinar definiciones globales iniciales
+    // Combine initial global definitions
     this.globalDefinitions.push(
       ...(Array.isArray(definitions) ? definitions : [definitions])
     );
 
-    // Indexar rutas por nombre de vista y avisar si hay sobrescrituras
+    // Index routes by view name and warn about overwrites
     this.routes = routes.reduce((rdx, route) => {
       if (rdx[route.view.name]) {
         console.warn(`Route ${route.view.name} overwritten`);
@@ -189,22 +195,22 @@ export class AppGoatController {
       return rdx;
     }, {} as Record<string, any>);
 
-    // Registrar extensiones de campos, componentes y controladores globales
+    // Register global field, component and controller extensions
     if (fields) addFields(fields);
     if (components) addComponents(components);
     if (controllers) addControllers(controllers);
 
-    // Añadir formatos personalizados globales
+    // Add custom global formats
     if (dictionary) addDictionary(dictionary);
     if (formatDate) addFormatDate(formatDate);
     if (formatNumber) addFormatNumber(formatNumber);
     if (formatTime) addFormatTime(formatTime);
     if (formatDateTime) addFormatDateTime(formatDateTime);
 
-    // Establecer lenguaje global
+    // Set global language
     if (lang) setLang(lang);
 
-    // Establecer el estado inicial en almacenamiento local/session o GLOBAL_STATE
+    // Set initial state in storage or GLOBAL_STATE
     if (initialState) {
       const keys = [
         ...Object.keys(sessionStorage),
@@ -222,36 +228,36 @@ export class AppGoatController {
       });
     }
 
-    // Preparar esquema raíz y rutas
+    // Prepare root schema and routes
     schema.view.path = schema.view.path || '/';
     this.rootSchema = this.buildRootSchema(schema);
 
-    // Aviso informativo total de rutas
+    // Informative log of total routes
     console.info('Total Routes:', this.tmpRoutesFound);
   }
 
   /**
-   * Método recursivo que procesa el esquema de rutas para construir una estructura navegable.
+   * Recursively processes a route schema to build a navigable structure.
    *
-   * @param schema - Esquema de rutas actual que se procesará recursivamente.
-   * @returns El esquema de vista procesado, con todas las rutas internas resueltas.
+   * @param schema - Route schema to process.
+   * @returns The processed view schema with nested routes resolved.
    */
   findingRoutesRecursive(schema: RouteSchema): RouteProps {
-    // Incrementa el contador temporal de rutas encontradas
+    // Increase the temporary counter of found routes
     this.tmpRoutesFound++;
 
-    // Combina definiciones globales con las definiciones locales del esquema actual
+    // Merge global definitions with the current schema's definitions
     const newDefs = deepMerge({}, ...this.globalDefinitions, schema.definitions || {});
 
-    // Resuelve referencias internas de la vista usando definiciones combinadas
+    // Resolve view internal references using combined definitions
     const view = resolveRefs(schema.view, { definitions: newDefs, data: schema.data || {} });
 
-    // Procesa rutas anidadas si existen
+    // Process nested routes if present
     if (schema.routes?.length) {
       view.routes = Object.entries(
         resolveRefs(schema.routes, { routes: this.routes }) as RouteSchema[]
       ).map(([key, route]: [string, RouteSchema]) => {
-        // Manejo de error: ruta sin vista definida
+        // Error handling: route without defined view
         if (!(route && route.view)) {
           console.error('ROUTE VIEW NOT FOUND', route);
           return {
@@ -265,67 +271,63 @@ export class AppGoatController {
           };
         }
 
-        // Llamada recursiva para seguir procesando rutas anidadas
+        // Recursive call to continue processing nested routes
         return this.findingRoutesRecursive(route);
       });
     }
 
-    // Devuelve la vista ya procesada
+    // Return the processed view
     return view;
   }
 
 
   /**
-   * Construye el esquema raíz a partir del esquema inicial, resolviendo todas las rutas internas.
+   * Builds the root schema from the initial schema, resolving all nested routes.
    *
-   * @param schema - Esquema inicial desde el cual comenzar a construir el árbol de rutas.
-   * @returns Esquema raíz completamente procesado.
+   * @param schema - Initial schema to start from.
+   * @returns Fully processed root schema.
    */
   buildRootSchema(schema: RouteSchema): RouteProps {
-    // Reinicia el contador temporal de rutas encontradas
+    // Reset the temporary route counter
     this.tmpRoutesFound = 0;
 
-    // Construye el esquema raíz invocando la función recursiva
+    // Build the root schema invoking the recursive function
     const root = this.findingRoutesRecursive(schema);
 
-    // Muestra en consola el total de rutas encontradas tras la construcción
+    // Log the total number of routes after building
     console.info('Total Routes:', this.tmpRoutesFound);
 
-    // Retorna el esquema raíz completamente resuelto
+    // Return the fully resolved root schema
     return root;
   }
 
   /**
-   * Convierte un objeto JavaScript a una cadena JSON.
-   * Futuramente podrá encriptar la cadena si la opción es activada.
+   * Converts a JavaScript object to a JSON string.
+   * Encryption is not implemented yet.
    *
-   * @param data - Objeto JavaScript a convertir en JSON.
-   * @param encrypt - Indica si la cadena debe encriptarse (pendiente).
-   * @returns Cadena JSON (posiblemente encriptada a futuro).
+   * @param data - Object to stringify.
+   * @param encrypt - Whether to encrypt the string (pending).
    */
   stringify(data: any, encrypt: boolean = false): string {
-    // TODO: Implementar cifrado de datos en el futuro
     return JSON.stringify(data);
   }
 
   /**
-   * Convierte una cadena JSON nuevamente a objeto JavaScript.
-   * Futuramente podrá desencriptar la cadena si está cifrada.
+   * Parses a JSON string back to an object.
+   * Decryption is not implemented yet.
    *
-   * @param data - Cadena JSON a parsear.
-   * @returns Objeto JavaScript original.
+   * @param data - JSON string to parse.
    */
   parse(data: string): any {
-    // TODO: Implementar descifrado en el futuro
     return JSON.parse(data);
   }
 
   /**
-   * Guarda un valor en el almacenamiento global y opcionalmente en localStorage/sessionStorage.
+   * Saves a value in the global storage and optionally in localStorage/sessionStorage.
    *
-   * @param key - Clave para identificar el valor guardado.
-   * @param data - Valor que será guardado.
-   * @param options - Opciones para configurar el guardado.
+   * @param key - Key used to identify the stored value.
+   * @param data - Value to store.
+   * @param options - Storage options.
    */
   set(
     key: string,
@@ -340,40 +342,40 @@ export class AppGoatController {
       encrypt?: boolean;
     } = {}
   ): void {
-    // Guarda en localStorage o sessionStorage según la opción elegida
+    // Save in localStorage or sessionStorage according to option
     if (storage === 'local') {
       localStorage.setItem(this.prefixStorage + key, this.stringify(data, encrypt));
     } else if (storage === 'session') {
       sessionStorage.setItem(this.prefixStorage + key, this.stringify(data, encrypt));
     }
 
-    // Guarda en memoria (GLOBAL_STATE)
+    // Save in memory (GLOBAL_STATE)
     GLOBAL_STATE[key] = data;
 
-    // Dispara evento global indicando que la clave fue actualizada
+    // Dispatch global event indicating the key was updated
     if (dispatch) {
       eventHandler.dispatch('global.' + key, data);
     }
   }
 
   /**
-   * Recupera un valor del almacenamiento global o de localStorage/sessionStorage.
+   * Retrieves a value from global or browser storage.
    *
-   * @param key - Clave del valor que se desea recuperar.
-   * @returns Valor almacenado o undefined si no existe.
+   * @param key - Key of the desired value.
+   * @returns Stored value or undefined.
    */
   get(key: string): any {
-    // Recupera de GLOBAL_STATE si ya existe
+    // Retrieve from GLOBAL_STATE if already present
     if (GLOBAL_STATE[key] === undefined) {
-      // Intenta recuperar del sessionStorage
+      // Try to retrieve from sessionStorage
       let value = sessionStorage.getItem(this.prefixStorage + key);
 
-      // Si no está en sessionStorage intenta en localStorage
+      // If not in sessionStorage, try localStorage
       if (value === null) {
         value = localStorage.getItem(this.prefixStorage + key);
       }
 
-      // Si lo encuentra, guarda en GLOBAL_STATE
+      // If found, save in GLOBAL_STATE
       if (value !== null) {
         GLOBAL_STATE[key] = this.parse(value);
       }
@@ -383,10 +385,10 @@ export class AppGoatController {
   }
 
   /**
-   * Elimina un valor del almacenamiento global y opcionalmente del localStorage/sessionStorage.
+   * Removes a value from global and optional browser storage.
    *
-   * @param key - Clave del valor que se desea eliminar.
-   * @param options - Opciones para configurar la eliminación.
+   * @param key - Key of the value to remove.
+   * @param options - Removal options.
    */
   remove(
     key: string,
@@ -398,7 +400,7 @@ export class AppGoatController {
       dispatch?: boolean;
     } = {}
   ): void {
-    // Remueve del storage especificado o de ambos
+    // Remove from the specified storage or both
     if (storage === 'local') {
       localStorage.removeItem(this.prefixStorage + key);
     } else if (storage === 'session') {
@@ -408,19 +410,19 @@ export class AppGoatController {
       sessionStorage.removeItem(this.prefixStorage + key);
     }
 
-    // Elimina del GLOBAL_STATE
+    // Remove from GLOBAL_STATE
     delete GLOBAL_STATE[key];
 
-    // Dispara evento global indicando que la clave fue removida
+    // Dispatch global event indicating the key was removed
     if (dispatch) {
       eventHandler.dispatch('global.' + key);
     }
   }
 
   /**
-   * Obtiene todas las definiciones globales combinadas con las definiciones del esquema raíz.
+   * Retrieves all global definitions combined with the root schema definitions.
    *
-   * @returns Objeto con definiciones resueltas completamente.
+   * @returns Fully resolved definitions object.
    */
   getRootDefinitions(): Record<string, any> {
     const allDefs = deepMerge({}, ...this.globalDefinitions, this.props!.schema!.definitions || {});
@@ -428,10 +430,10 @@ export class AppGoatController {
   }
 
   /**
-   * Obtiene definiciones combinadas y resueltas específicas para una vista por su nombre.
+   * Gets combined and resolved definitions for a view by name.
    *
-   * @param name - Nombre de la vista cuyas definiciones se desean recuperar.
-   * @returns Objeto con definiciones específicas de la vista resueltas, o vacío si no existen.
+   * @param name - View name to retrieve definitions for.
+   * @returns Resolved view definitions or an empty object.
    */
   getViewDefinitions(name: string): Record<string, any> {
     if (!this.routes[name]?.definitions) return {};
@@ -441,9 +443,9 @@ export class AppGoatController {
   }
 
   /**
-   * Devuelve todas las definiciones globales actuales (sin resolver referencias).
+   * Returns all current global definitions.
    *
-   * @returns Array con definiciones globales.
+   * @returns Array of global definitions.
    */
   getGlobalDefinitions(): Array<any> {
     const allDefs = deepMerge({}, ...this.globalDefinitions);
@@ -451,20 +453,20 @@ export class AppGoatController {
   }
 
   /**
-   * Devuelve un array con todas las claves almacenadas actualmente en el estado global.
+   * Returns the keys currently stored in global state.
    *
-   * @returns Array con las claves del GLOBAL_STATE.
+   * @returns Array of global state keys.
    */
   getGlobalKeys(): string[] {
     return Object.keys(GLOBAL_STATE);
   }
 
   /**
-   * Ejecuta una promesa asegurando un tiempo mínimo de espera especificado.
+   * Executes a promise ensuring a minimum wait time.
    *
-   * @param promise - Promesa que se ejecutará.
-   * @param timeout - Tiempo mínimo en milisegundos que la promesa debe tardar en resolverse.
-   * @returns Resultado de la promesa original tras esperar el tiempo mínimo.
+   * @param promise - Promise to execute.
+   * @param timeout - Minimum time in milliseconds before resolving.
+   * @returns Result of the original promise after waiting.
    */
   async minTimeout<T>(promise: Promise<T>, timeout: number = this.props!.minTimeout!): Promise<T> {
     const [result] = await Promise.all([
@@ -475,18 +477,18 @@ export class AppGoatController {
   }
 
   /**
-   * Añade nuevas cabeceras globales a la configuración de peticiones HTTP.
+   * Adds new global headers to HTTP request configuration.
    *
-   * @param headers - Objeto que contiene las cabeceras a añadir.
+   * @param headers - Headers to add.
    */
   addHeaders(headers: Record<string, string>): void {
     Object.assign(this.props!.apiHeaders!, headers);
   }
 
   /**
-   * Elimina una o varias cabeceras globales de la configuración de peticiones HTTP.
+   * Removes one or more global headers from HTTP request configuration.
    *
-   * @param headerNames - Nombres de las cabeceras a eliminar.
+   * @param headerNames - Names of headers to remove.
    */
   removeHeaders(...headerNames: Array<string | string[]>): void {
     const apiHeaders = this.props!.apiHeaders as Record<string, string>;
@@ -499,11 +501,11 @@ export class AppGoatController {
   }
 
   /**
-   * Realiza una petición HTTP usando Fetch API con configuración avanzada.
+   * Performs an HTTP request using the Fetch API with advanced configuration.
    *
-   * @param url - Endpoint relativo al API base configurado.
-   * @param options - Opciones para personalizar la petición.
-   * @returns Promesa con la respuesta procesada o un error.
+   * @param url - Endpoint relative to the base API.
+   * @param options - Request options.
+   * @returns Promise with the processed response or an error.
    */
   fetch(
     url: string,
@@ -519,7 +521,7 @@ export class AppGoatController {
 
     const requestKey = `${options.method}${url}`;
 
-    // AbortController para cancelar peticiones activas previas
+    // AbortController to cancel previous active requests
     if (this.fetchList[requestKey]) {
       this.fetchList[requestKey].abort();
     }
@@ -536,7 +538,7 @@ export class AppGoatController {
     const conf = confraw as RequestAppGoat;
     if (body) conf.body = JSON.stringify(body);
 
-    // Construir URL final con query params
+    // Build final URL with query params
     const finalUrl = new URL(urlJoin(this.props!.api!, url));
     const flattenQuery = flatten(query, { ommitArrays: true });
     Object.entries(flattenQuery).forEach(([key, value]) => {
@@ -547,7 +549,7 @@ export class AppGoatController {
       }
     });
 
-    // Manejo de timeout con CustomAbortController
+    // Handle timeout with custom AbortController
     if (timeout) {
       const abortCtrl = new AppGoatAbortController();
       this.fetchList[requestKey] = abortCtrl;
@@ -556,7 +558,7 @@ export class AppGoatController {
       abortCtrl.timeoutId = setTimeout(() => this.onTimeout(abortCtrl), timeout);
     }
 
-    // Preparar headers finales
+    // Prepare final headers
     const apiHeaders =
       typeof this.props!.apiHeaders === 'object'
         ? this.props!.apiHeaders
@@ -610,9 +612,9 @@ export class AppGoatController {
   }
 
   /**
-   * Maneja la cancelación de peticiones HTTP cuando se alcanza el tiempo máximo de espera.
+   * Cancels HTTP requests when the maximum timeout is reached.
    *
-   * @param controller - AbortController de la petición que será cancelada.
+   * @param controller - AbortController of the request to cancel.
    */
   onTimeout(controller: AbortController & { timeout?: boolean }): void {
     controller.timeout = true;
@@ -620,9 +622,7 @@ export class AppGoatController {
   }
 
   /**
-   * Obtiene el lenguaje actualmente configurado para la aplicación.
-   *
-   * @returns Lenguaje actual.
+   * Returns the current application language.
    */
   getLang(): string {
     return getLang();

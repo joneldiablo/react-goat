@@ -9,6 +9,7 @@
 - Added internationalization helpers and a `SelectLanguage` component with default flag options.
 - Synced media components (Icons, Image, SvgImports, Svg, Video and YoutubeVideoComponent) with documentation and tests.
 - Documented React Router helpers (Link, NavLink, Route, SchemaController and withRouteWrapper) and added unit tests.
+- Documented controller registry and base Controller, syncing rerender logic on navigation and adding registry extension tests.
 
 ## TODO
 

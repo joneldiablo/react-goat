@@ -7,6 +7,8 @@ export { default as ListContainer } from "./containers/list-container";
 export { default as AutoResponsiveContainer } from "./containers/auto-responsive-container";
 export { default as FullscreenContainer } from "./containers/fullscreen-container";
 export { default as DndListContainer } from "./containers/dnd-list-container";
+export { default as FetchContainer } from "./containers/fetch-container";
+export { default as FlexContainer } from "./containers/flex-container";
 export { default as ProportionalContainer } from "./containers/proportional-container";
 export { default as ScrollContainer } from "./containers/scroll-container";
 
@@ -45,6 +47,8 @@ export * from "./containers/list-container";
 export * from "./containers/auto-responsive-container";
 export * from "./containers/fullscreen-container";
 export * from "./containers/dnd-list-container";
+export * from "./containers/fetch-container";
+export * from "./containers/flex-container";
 export * from "./containers/proportional-container";
 export * from "./containers/scroll-container";
 

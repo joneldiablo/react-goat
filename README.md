@@ -10,6 +10,7 @@
 - Synced media components (Icons, Image, SvgImports, Svg, Video and YoutubeVideoComponent) with documentation and tests.
 - Documented React Router helpers (Link, NavLink, Route, SchemaController and withRouteWrapper) and added unit tests.
 - Documented controller registry and base Controller, syncing rerender logic on navigation and adding registry extension tests.
+- Synced core containers (Container, AutoResponsiveContainer, DetailsContainer, FetchContainer, FlexContainer and GridContainer) with documentation and tests.
 
 ## TODO
 
@@ -17,5 +18,6 @@
 - [ ] Implement data encryption in `AppGoatController.stringify`.
 - [ ] Implement data decryption in `AppGoatController.parse`.
 - [ ] Render flag icons inside `SelectLanguage` options.
+- [ ] Split `FetchContainer` into a template renderer and a service-backed variant.
 
 

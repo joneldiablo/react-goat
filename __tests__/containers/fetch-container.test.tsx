@@ -1,14 +1,12 @@
 import React from "react";
-import { render, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+
 import FetchContainer from "../../src/containers/fetch-container";
 
-global.fetch = jest.fn(() => Promise.resolve({ text: () => Promise.resolve("ok") })) as any;
-
-describe("FetchContainer", () => {
-  test("fetches and renders content", async () => {
-    const { container } = render(<FetchContainer name="f" url="/" />);
-    await waitFor(() => {
-      expect(container.innerHTML).toContain("ok");
-    });
-  });
+test("fetches html and renders it", async () => {
+  global.fetch = jest.fn().mockResolvedValue({ text: () => Promise.resolve("<p>Hi</p>") }) as any;
+  render(
+    <FetchContainer name="fc" url="/test" />
+  );
+  await waitFor(() => expect(screen.getByText("Hi")).toBeInTheDocument());
 });

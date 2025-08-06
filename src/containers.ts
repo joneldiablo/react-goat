@@ -10,6 +10,8 @@ import ListContainer from "./containers/list-container";
 import AutoResponsiveContainer from "./containers/auto-responsive-container";
 import FullscreenContainer from "./containers/fullscreen-container";
 import DndListContainer from "./containers/dnd-list-container";
+import FetchContainer from "./containers/fetch-container";
+import FlexContainer from "./containers/flex-container";
 import ProportionalContainer from "./containers/proportional-container";
 import ScrollContainer from "./containers/scroll-container";
 
@@ -23,6 +25,8 @@ const CONTAINERS: Record<string, typeof Container<any, any> | React.FC<Component
   AutoResponsiveContainer,
   FullscreenContainer,
   DndListContainer,
+  FetchContainer,
+  FlexContainer,
   ProportionalContainer,
   ScrollContainer
 };

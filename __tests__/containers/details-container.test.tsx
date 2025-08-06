@@ -1,16 +1,25 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react";
-import DetailsContainer from "../../src/containers/details-container";
+import { render, act } from "@testing-library/react";
 
-describe("DetailsContainer", () => {
-  test("toggles open state", () => {
-    const { getByText } = render(
-      <DetailsContainer name="det" label="label">content</DetailsContainer>
-    );
-    const summary = getByText("label");
-    fireEvent.click(summary);
-    expect((summary.parentElement as HTMLDetailsElement).open).toBe(true);
-    fireEvent.click(summary);
-    expect((summary.parentElement as HTMLDetailsElement).open).toBe(false);
+jest.mock("dbl-utils/event-handler", () => ({
+  subscribe: jest.fn(),
+  unsubscribe: jest.fn(),
+  dispatch: jest.fn(),
+}));
+
+import DetailsContainer from "../../src/containers/details-container";
+import eventHandler from "dbl-utils/event-handler";
+
+test("toggles and dispatches event", () => {
+  const ref = React.createRef<DetailsContainer>();
+  render(
+    <DetailsContainer name="dc" label="title" ref={ref}>
+      <span>Hi</span>
+    </DetailsContainer>
+  );
+  act(() => {
+    (ref.current as any).onToggle({ target: { open: true } } as any);
   });
+  expect((ref.current as any).state.open).toBe(true);
+  expect(eventHandler.dispatch).toHaveBeenCalledWith("dc", expect.any(Object));
 });

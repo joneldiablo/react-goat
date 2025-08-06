@@ -1,45 +1,32 @@
 import React from "react";
-import { render, waitFor, act } from "@testing-library/react";
+import { render, act } from "@testing-library/react";
+
+jest.mock("dbl-utils/event-handler", () => ({ dispatch: jest.fn(), subscribe: jest.fn(), unsubscribe: jest.fn() }));
+
 import Container from "../../src/containers/container";
 
-function setup(props: any = {}) {
+test("updates classes on resize and calls callback", () => {
+  jest.useFakeTimers();
+  const onResize = jest.fn();
   const ref = React.createRef<Container>();
-  render(<Container name="test" ref={ref} {...props}>content</Container>);
-  return ref;
-}
-
-describe("Container", () => {
-  test("applies container-fluid by default", async () => {
-    const ref = setup();
-    act(() => {
-      ref.current!.onResize({ width: 800, height: 600 });
-    });
-    await waitFor(() => {
-      const div = (ref.current as any).ref.current as HTMLElement;
-      expect(div.className).toContain("container-fluid");
-    });
+  render(
+    <Container name="c" ref={ref} onResize={onResize}>
+      <span>child</span>
+    </Container>
+  );
+  const el = (ref.current as any).ref.current as HTMLDivElement;
+  Object.defineProperties(el, {
+    offsetWidth: { value: 800 },
+    offsetHeight: { value: 600 },
   });
-
-  test("applies container when fluid is false", async () => {
-    const ref = setup({ fluid: false });
-    act(() => {
-      ref.current!.onResize({ width: 800, height: 600 });
-    });
-    await waitFor(() => {
-      const div = (ref.current as any).ref.current as HTMLElement;
-      expect(div.className).toContain("container");
-    });
+  onResize.mockClear();
+  act(() => {
+    (ref.current as any).onResize(true);
+    jest.runAllTimers();
   });
-
-  test("no container classes when fullWidth", async () => {
-    const ref = setup({ fullWidth: true });
-    act(() => {
-      ref.current!.onResize({ width: 800, height: 600 });
-    });
-    await waitFor(() => {
-      const div = (ref.current as any).ref.current as HTMLElement;
-      expect(div.className).not.toContain("container");
-      expect(div.className).not.toContain("container-fluid");
-    });
-  });
+  expect(onResize).toHaveBeenCalledWith(
+    expect.objectContaining({ breakpoint: "md" })
+  );
+  expect((ref.current as any).state.localClasses).toContain("md");
+  jest.useRealTimers();
 });

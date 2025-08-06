@@ -2,19 +2,33 @@ import React, { JSX } from "react";
 import Container, { ContainerProps } from "./container";
 
 export interface GridContainerProps extends ContainerProps {
+  /** Classes applied to each column. */
   colClasses?: string | string[];
+  /** Element used to wrap each child. */
   colTag?: keyof JSX.IntrinsicElements;
 }
 
-export default class GridContainer<TProps extends GridContainerProps = GridContainerProps> extends Container<TProps> {
+/**
+ * Responsive grid container that wraps children in columns and applies
+ * responsive classes based on the current breakpoint.
+ */
+export default class GridContainer<
+  TProps extends GridContainerProps = GridContainerProps
+> extends Container<TProps> {
   static jsClass = "GridContainer";
 
   static defaultProps = {
     ...Container.defaultProps,
     colClasses: [],
-    colTag: "div"
+    colTag: "div",
+    fullWidth: true,
   };
 
+  protected classes = "row";
+
+  /**
+   * Builds the column markup for the provided children.
+   */
   grid(children = this.props.children, extraClasses?: string | string[]) {
     const { colClasses, colTag } = this.props;
     return (
@@ -23,7 +37,7 @@ export default class GridContainer<TProps extends GridContainerProps = GridConta
         .map((child: any, i: number) => {
           if (!child) return null;
 
-          let colcn = [i % 2 ? "even" : "odd", "col-num-" + i];
+          const colcn = [i % 2 ? "even" : "odd", "col-num-" + i];
 
           const childProps = (
             child.props?.style?.["--component-name"] ? child.props.children : child
@@ -53,6 +67,9 @@ export default class GridContainer<TProps extends GridContainerProps = GridConta
     );
   }
 
+  /**
+   * Renders the grid once a breakpoint is available.
+   */
   content(children = this.props.children) {
     return super.content(this.grid(children));
   }

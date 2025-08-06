@@ -7,6 +7,7 @@
 - Converted Chart.js components to TypeScript with documentation and tests.
 - Documented Goat utility and application controller with accompanying tests.
 - Added internationalization helpers and a `SelectLanguage` component with default flag options.
+- Synced media components (Icons, Image, SvgImports, Svg, Video and YoutubeVideoComponent) with documentation and tests.
 
 ## TODO
 

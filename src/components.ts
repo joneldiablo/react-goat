@@ -9,10 +9,22 @@ import navigationComponents from "./navigation";
 import chartjsComponents from "./chartjs";
 import Route from "./react-router-schema/route";
 
+export * from "./component";
+export * from "./goat-component";
+export * from "./containers";
+export * from "./fields";
+export * from "./media";
+export * from "./navigation";
+export * from "./chartjs";
+export * from "./react-router-schema/route";
+
 /**
  * Registry of available React components used by `Goat`.
  */
-const COMPONENTS: Record<string, React.FC<any> | typeof React.Component<any, any>> = {
+const COMPONENTS: Record<
+  string,
+  React.FC<any> | typeof React.Component<any, any>
+> = {
   Component,
   GoatComponent,
   ...containers,
@@ -31,9 +43,15 @@ const COMPONENTS: Record<string, React.FC<any> | typeof React.Component<any, any
  * addComponents({ Custom: MyComponent });
  * ```
  */
-export const addComponents = (components: Record<string, React.FC<any> | typeof React.Component | {} | false>): void => {
-  if (!components) return;
+export const addComponents = (
+  components: Record<
+    string,
+    React.FC<any> | typeof React.Component | {} | false
+  >
+): boolean => {
+  if (!components) return false;
   Object.assign(COMPONENTS, components);
+  return true;
 };
 
 export default COMPONENTS;

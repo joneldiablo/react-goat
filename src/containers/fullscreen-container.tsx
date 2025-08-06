@@ -1,13 +1,17 @@
 import React from "react";
-import Component, { ComponentProps } from "../component";
+import Component, { ComponentProps, ComponentState } from "../component";
 
 export interface FullscreenContainerProps extends ComponentProps {
   overflow?: string;
   gutter?: number;
 }
 
-export default class FullscreenContainer<TProps extends FullscreenContainerProps = FullscreenContainerProps>
-  extends Component<TProps> {
+export interface FullscreenContainerState extends ComponentState {}
+
+export default class FullscreenContainer<
+  TProps extends FullscreenContainerProps = FullscreenContainerProps,
+  TState extends FullscreenContainerState = FullscreenContainerState
+> extends Component<TProps, TState> {
   static jsClass = "FullscreenContainer";
 
   static defaultProps: Partial<FullscreenContainerProps> = {
@@ -17,6 +21,11 @@ export default class FullscreenContainer<TProps extends FullscreenContainerProps
   };
 
   protected style: React.CSSProperties = {};
+
+  constructor(props: TProps) {
+    super(props);
+    this.state = this.state as TState;
+  }
 
   protected content(children = this.props.children): React.ReactNode {
     const { overflow, gutter } = this.props;

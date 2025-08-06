@@ -1,41 +1,32 @@
 import React from "react";
+import { Options as YTOptions } from "youtube-player/dist/types";
 import YouTube, { YouTubeProps } from "react-youtube";
-import Component, { ComponentProps } from "../component";
-import AspectRatioContainer from "../containers/proportional-container";
+
 import { splitAndFlat } from "dbl-utils/utils";
 
-interface YoutubeVideoComponentProps extends ComponentProps, YouTubeProps {
-  ratio?: number;
-  youtubeOpts?: {
-    autoPlay?: 0 | 1 | "0" | "1";
-    cc_load_policy?: 1 | "1";
-    color?: string;
-    controls?: 0 | 1 | 2 | "0" | "1" | "2";
-    disablekb?: 0 | 1 | "0" | "1";
-    enablejsapi?: string;
-    end?: number;
-    fs?: string;
-    hl?: string;
-    iv_load_policy?: string;
-    list?: string;
-    listType?: string;
-    loop?: string;
-    modestbranding?: string;
-    origin?: string;
-    playlist?: string;
-    playsInline?: string;
-    rel?: string;
-    showinfo?: string;
-    start?: string;
-  };
+import Component, { ComponentProps, ComponentState } from "../component";
+import AspectRatioContainer, {
+  ProportionalContainerProps,
+} from "../containers/proportional-container";
+
+export interface YoutubeVideoComponentProps
+  extends ComponentProps,
+    YouTubeProps {
+  youtubeOpts?: YTOptions["playerVars"];
+  ratio?: ProportionalContainerProps["ratio"];
+  overflow?: ProportionalContainerProps["overflow"];
+  containerClasses?: ProportionalContainerProps["containerClasses"];
   videoId: string;
   className?: string;
   ytbClasses?: string;
   ytbContainerClasses?: string;
-  containerClasses?: string;
 }
+export interface YoutubeVideoComponentState extends ComponentState {}
 
-export default class YoutubeVideoComponent extends Component<YoutubeVideoComponentProps> {
+export default class YoutubeVideoComponent<
+  TProps extends YoutubeVideoComponentProps = YoutubeVideoComponentProps,
+  TState extends YoutubeVideoComponentState = YoutubeVideoComponentState
+> extends Component<TProps, TState> {
   static jsClass = "YoutubeVideoComponent";
 
   static defaultProps: Partial<YoutubeVideoComponentProps> = {
@@ -43,16 +34,21 @@ export default class YoutubeVideoComponent extends Component<YoutubeVideoCompone
     ratio: 2 / 3,
   };
 
-  protected content(children: React.ReactNode = this.props.children): React.ReactNode {
+  constructor(props: TProps) {
+    super(props);
+    this.state = this.state as TState;
+  }
+
+  protected content(children = this.props.children) {
     const {
       name,
-      ratio,
-      overflow,
-      youtubeOpts,
-      videoId,
-      ytbClasses,
-      ytbContainerClasses,
       containerClasses,
+      ytbContainerClasses,
+      ytbClasses,
+      overflow,
+      ratio,
+      videoId,
+      youtubeOpts,
       onReady,
       onPlay,
       onPause,
@@ -61,13 +57,16 @@ export default class YoutubeVideoComponent extends Component<YoutubeVideoCompone
       onStateChange,
       onPlaybackRateChange,
       onPlaybackQualityChange,
-    } = this.props;
+    } = this.props as TProps;
 
     const propsYoutube: YouTubeProps = {
       videoId,
       id: videoId,
       className: ytbClasses,
-      iframeClassName: splitAndFlat(["h-100 w-100", ytbContainerClasses], ' ').join(" "),
+      iframeClassName: splitAndFlat(
+        ["h-100 w-100", ytbContainerClasses],
+        " "
+      ).join(" "),
       onReady,
       onPlay,
       onPause,
@@ -84,7 +83,12 @@ export default class YoutubeVideoComponent extends Component<YoutubeVideoCompone
     };
 
     return (
-      <AspectRatioContainer name={'ratio-' + name} ratio={ratio} overflow={overflow} innerClasses={containerClasses} fullWidth>
+      <AspectRatioContainer
+        name={"ratio-" + name}
+        ratio={ratio}
+        overflow={overflow}
+        innerClasses={containerClasses}
+      >
         {videoId && <YouTube {...propsYoutube} />}
         {children}
       </AspectRatioContainer>

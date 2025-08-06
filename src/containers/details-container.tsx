@@ -22,7 +22,7 @@ export default class DetailsContainer<
   TProps extends DetailsContainerProps = DetailsContainerProps,
   TState extends DetailsContainerState = DetailsContainerState
 > extends Component<TProps, TState> {
-  static jsClass = 'DetailsContainer';
+  static jsClass = "DetailsContainer";
 
   protected events: [string, (event: any) => void][] = [];
   protected ref = React.createRef<HTMLDetailsElement>();
@@ -30,13 +30,12 @@ export default class DetailsContainer<
   constructor(props: TProps) {
     super(props);
     this.tag = "details";
+    this.state = this.state as TState;
     Object.assign(this.state, {
       open: !!props.open,
     });
     this.onToggle = this.onToggle.bind(this);
-    this.events.push(
-      ["update." + props.name, this.onUpdate.bind(this),]
-    );
+    this.events.push(["update." + props.name, this.onUpdate.bind(this)]);
     this.eventHandlers.onToggle = this.onToggle;
   }
 
@@ -45,11 +44,15 @@ export default class DetailsContainer<
   }
 
   componentDidMount() {
-    this.events.forEach(([evt, handler]) => eventHandler.subscribe(evt, handler, this.props.name));
+    this.events.forEach(([evt, handler]) =>
+      eventHandler.subscribe(evt, handler, this.props.name)
+    );
   }
 
   componentWillUnmount() {
-    this.events.forEach(([evt]) => eventHandler.unsubscribe(evt, this.props.name));
+    this.events.forEach(([evt]) =>
+      eventHandler.unsubscribe(evt, this.props.name)
+    );
   }
 
   onUpdate = ({ open }: { open?: boolean }) => {
@@ -71,11 +74,17 @@ export default class DetailsContainer<
   content(children: React.ReactNode = this.props.children) {
     const { containerClasses, labelClasses } = this.props;
     const cnl = Array.isArray(labelClasses) ? labelClasses : [labelClasses];
-    const cnc = Array.isArray(containerClasses) ? containerClasses : [containerClasses];
+    const cnc = Array.isArray(containerClasses)
+      ? containerClasses
+      : [containerClasses];
     return (
       <>
-        <summary className={splitAndFlat(cnl, ' ').join(" ")}>{this.props.label}</summary>
-        {this.state.open && <div className={splitAndFlat(cnc, ' ').join(" ")}>{children}</div>}
+        <summary className={splitAndFlat(cnl, " ").join(" ")}>
+          {this.props.label}
+        </summary>
+        {this.state.open && (
+          <div className={splitAndFlat(cnc, " ").join(" ")}>{children}</div>
+        )}
       </>
     );
   }

@@ -1,6 +1,8 @@
 import React from "react";
-import Component, { ComponentProps } from "../component";
+
 import { splitAndFlat } from "dbl-utils/utils";
+
+import Component, { ComponentProps } from "../component";
 
 // Define the ObjectFit type with possible CSS values.
 type ObjectFit = 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';

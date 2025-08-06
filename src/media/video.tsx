@@ -1,7 +1,8 @@
 import React from "react";
-import Component, { ComponentProps } from "../component";
 
-interface VideoProps extends ComponentProps {
+import Component, { ComponentProps, ComponentState } from "../component";
+
+export interface VideoProps extends ComponentProps {
   autoPlay?: boolean;
   controls?: boolean;
   height?: number | string;
@@ -15,7 +16,12 @@ interface VideoProps extends ComponentProps {
   sources?: { src: string; type?: string }[] | { src: string; type?: string };
 }
 
-export default class Video extends Component<VideoProps> {
+export interface VideoState extends ComponentState {}
+
+export default class Video<
+  TProps extends VideoProps = VideoProps,
+  TState extends VideoState = VideoState
+> extends Component<TProps, TState> {
   static jsClass = "Video";
 
   protected tag: keyof React.JSX.IntrinsicElements = "video";
@@ -48,9 +54,13 @@ export default class Video extends Component<VideoProps> {
     };
   }
 
-  protected content(children: React.ReactNode = this.props.children): React.ReactNode {
+  protected content(
+    children: React.ReactNode = this.props.children
+  ): React.ReactNode {
     if (this.props.src) return false;
-    const sources = Array.isArray(this.props.sources) ? this.props.sources : [this.props.sources];
+    const sources = Array.isArray(this.props.sources)
+      ? this.props.sources
+      : [this.props.sources];
 
     return sources.map((s, i) =>
       s ? <source key={i} src={s.src} type={s.type} /> : null

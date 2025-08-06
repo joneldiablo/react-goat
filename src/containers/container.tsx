@@ -36,9 +36,7 @@ export interface ResizeResponse {
   orientation: "landscape" | "portrait";
 }
 
-export interface ContainerState extends ComponentState {
-
-}
+export interface ContainerState extends ComponentState {}
 
 export default class Container<
   TProps extends ContainerProps = ContainerProps,
@@ -64,12 +62,13 @@ export default class Container<
   protected orientation: "landscape" | "portrait" | undefined;
   protected width = 0;
   protected height = 0;
-  protected waitBreakpoint = <Icons icon="spinner" classes="spinner" />;
+  protected waitBreakpoint = (<Icons icon="spinner" classes="spinner" />);
   protected resizeSensor?: ResizeSensor;
   protected onResizeTimeout?: NodeJS.Timeout;
 
   constructor(props: TProps) {
     super(props);
+    this.state = this.state as TState;
     this.ref = createRef<HTMLDivElement>();
     this.onResize = this.onResize.bind(this);
   }
@@ -83,14 +82,23 @@ export default class Container<
 
   updateSize() {
     const { fluid, fullWidth } = this.props;
-    const containerType = !fullWidth ? (fluid ? "container-fluid" : "container") : "";
+    const containerType = !fullWidth
+      ? fluid
+        ? "container-fluid"
+        : "container"
+      : "";
 
     const baseClasses = new Set(this.state.localClasses.split(" "));
 
-    Object.keys(this.props.breakpoints ?? {}).forEach((br) => baseClasses.delete(br));
-    [containerType, this.breakpoint, "animate"].forEach((c) => c && baseClasses.add(c));
+    Object.keys(this.props.breakpoints ?? {}).forEach((br) =>
+      baseClasses.delete(br)
+    );
+    [containerType, this.breakpoint, "animate"].forEach(
+      (c) => c && baseClasses.add(c)
+    );
 
-    const classesKey = (this.breakpoint ?? "") + "Classes" as keyof ContainerProps;
+    const classesKey = ((this.breakpoint ?? "") +
+      "Classes") as keyof ContainerProps;
     this.addClasses(this.props[classesKey] as string | null);
 
     this.setState({
@@ -143,7 +151,10 @@ export default class Container<
   }
 
   componentDidUpdate(prevProps: TProps) {
-    if (prevProps.fluid !== this.props.fluid || prevProps.fullWidth !== this.props.fullWidth) {
+    if (
+      prevProps.fluid !== this.props.fluid ||
+      prevProps.fullWidth !== this.props.fullWidth
+    ) {
       this.updateSize();
     }
   }
@@ -163,5 +174,4 @@ export default class Container<
   content(children: ReactNode = this.props.children) {
     return this.breakpoint ? children : this.waitBreakpoint;
   }
-
 }

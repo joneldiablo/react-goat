@@ -12,8 +12,9 @@ interface DndListContainerState extends ContainerState {
 }
 
 export default class DndListContainer<
-  TProps extends DndListContainerProps = DndListContainerProps
-> extends Container<TProps, DndListContainerState> {
+  TProps extends DndListContainerProps = DndListContainerProps,
+  TState extends DndListContainerState = DndListContainerState
+> extends Container<TProps, TState> {
   static jsClass = "DndListContainer";
 
   constructor(props: TProps) {
@@ -22,7 +23,7 @@ export default class DndListContainer<
       ...this.state,
       items: React.Children.toArray(props.children),
       dragIndex: null,
-    };
+    } as TState;
   }
 
   componentDidUpdate(prevProps: TProps) {
@@ -54,7 +55,7 @@ export default class DndListContainer<
     const { items } = this.state;
     return (
       <div>
-        {items.map((child, i) => (
+        {...items.map((child, i) => (
           <div
             key={i}
             draggable

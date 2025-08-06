@@ -1,5 +1,6 @@
-import Chartjs, { ChartjsProps } from "./_chartjs";
+import Chartjs, { ChartjsProps, ChartjsState } from "./_chartjs";
 
+const graph = "Scatter";
 /**
  * Renders a scatter chart.
  *
@@ -8,12 +9,19 @@ import Chartjs, { ChartjsProps } from "./_chartjs";
  * <ScatterChartjs name="points" data={data} />
  * ```
  */
-export default class ScatterChartjs<TProps extends ChartjsProps = ChartjsProps> extends Chartjs<TProps> {
+export default class ScatterChartjs<
+  TProps extends ChartjsProps<"scatter"> = ChartjsProps<"scatter">,
+  TState extends ChartjsState = ChartjsState
+> extends Chartjs<TProps> {
   static jsClass = "ScatterChartjs";
 
   static defaultProps = {
     ...Chartjs.defaultProps,
-    graph: "Scatter",
+    graph,
   };
-}
 
+  constructor(props: TProps) {
+    super(props);
+    this.state = this.state as TState;
+  }
+}

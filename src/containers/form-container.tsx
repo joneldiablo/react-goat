@@ -37,6 +37,7 @@ export default class FormContainer<
 
   constructor(props: TProps) {
     super(props);
+    this.state = this.state as TState;
     Object.assign(this.state, {
       data: {},
       invalidFields: {},
@@ -46,22 +47,29 @@ export default class FormContainer<
     this.checkValidity = this.checkValidity.bind(this);
     this.events.push(
       ["update." + props.name, this.onUpdate],
-      ["default." + props.name, this.onDefault],
+      ["default." + props.name, this.onDefault]
     );
     this.readyEvents = [];
     this.fieldsForEach((field) => {
       this.events.push([field.name, this.onChange]);
       this.events.push(["invalid." + field.name, this.onInvalidField]);
-      this.readyEvents.push(["ready." + field.name, this.onReadyOnce.bind(this)]);
+      this.readyEvents.push([
+        "ready." + field.name,
+        this.onReadyOnce.bind(this),
+      ]);
       if (typeof field.default !== "undefined")
-        Object.assign(this.state.defaultValues, { [field.name]: field.default });
+        Object.assign(this.state.defaultValues, {
+          [field.name]: field.default,
+        });
     });
     delete this.eventHandlers.onChange;
   }
 
   componentDidMount() {
     this.events.forEach((event) => eventHandler.subscribe(...event, this.name));
-    this.readyEvents.forEach((event) => eventHandler.subscribe(...event, this.name));
+    this.readyEvents.forEach((event) =>
+      eventHandler.subscribe(...event, this.name)
+    );
     this.reset();
   }
 
@@ -69,7 +77,9 @@ export default class FormContainer<
     clearTimeout(this.timeoutInvalid);
     clearTimeout(this.timeoutOnChange);
     clearTimeout(this.timeoutCheckValidity);
-    this.events.forEach(([eventName]) => eventHandler.unsubscribe(eventName, this.name));
+    this.events.forEach(([eventName]) =>
+      eventHandler.unsubscribe(eventName, this.name)
+    );
   }
 
   checkValidity() {
@@ -82,20 +92,33 @@ export default class FormContainer<
   }
 
   onReadyOnce() {
-    this.readyEvents.forEach(([eventName]) => eventHandler.unsubscribe(eventName, this.name));
+    this.readyEvents.forEach(([eventName]) =>
+      eventHandler.unsubscribe(eventName, this.name)
+    );
     eventHandler.dispatch("ready." + this.props.name);
   }
 
   fieldsForEach(func: (field: Record<string, any>, index: number) => void) {
     const { fields } = this.props;
     if (Array.isArray(fields)) {
-      fields.forEach((f, i) => func(typeof f === "string" ? { name: f } : f, i));
+      fields.forEach((f, i) =>
+        func(typeof f === "string" ? { name: f } : f, i)
+      );
     } else {
-      Object.keys(fields!).forEach((name, i) => func({ name, ...fields[name] }, i));
+      Object.keys(fields!).forEach((name, i) =>
+        func({ name, ...fields[name] }, i)
+      );
     }
   }
 
-  onUpdate = ({ data, reset, default: dataDefault, update = true, clearData, mergeDefault }: any) => {
+  onUpdate = ({
+    data,
+    reset,
+    default: dataDefault,
+    update = true,
+    clearData,
+    mergeDefault,
+  }: any) => {
     if (clearData) {
       this.setState({ data: {} });
     }
@@ -106,10 +129,15 @@ export default class FormContainer<
     if (data) {
       if (update) {
         Object.keys(data).forEach((fieldName) => {
-          eventHandler.dispatch("update." + fieldName, { value: data[fieldName] });
+          eventHandler.dispatch("update." + fieldName, {
+            value: data[fieldName],
+          });
         });
       }
-      this.setState({ data: { ...this.state.data, ...data } }, this.checkValidity);
+      this.setState(
+        { data: { ...this.state.data, ...data } },
+        this.checkValidity
+      );
     }
     if (typeof reset === "boolean") {
       this.reset();
@@ -132,8 +160,14 @@ export default class FormContainer<
   reset() {
     this.fieldsForEach((field) => {
       if (this.state.defaultValues[field.name] !== undefined)
-        eventHandler.dispatch("update." + field.name, { value: this.state.defaultValues[field.name] });
-      else eventHandler.dispatch("update." + field.name, { clear: true, error: false });
+        eventHandler.dispatch("update." + field.name, {
+          value: this.state.defaultValues[field.name],
+        });
+      else
+        eventHandler.dispatch("update." + field.name, {
+          clear: true,
+          error: false,
+        });
     });
     this.setState({ data: {} });
   }
@@ -141,7 +175,10 @@ export default class FormContainer<
   onInvalid = () => {
     clearTimeout(this.timeoutInvalid);
     this.timeoutInvalid = setTimeout(() => {
-      eventHandler.dispatch("invalid." + this.props.name, this.state.invalidFields);
+      eventHandler.dispatch(
+        "invalid." + this.props.name,
+        this.state.invalidFields
+      );
     }, 400);
   };
 
@@ -167,7 +204,12 @@ export default class FormContainer<
   content(children = this.props.children) {
     const { label, labelClasses, name } = this.props;
     return (
-      <form onSubmit={this.onSubmit} onInvalid={this.onInvalid} ref={this.form} id={`${name}-form`}>
+      <form
+        onSubmit={this.onSubmit}
+        onInvalid={this.onInvalid}
+        ref={this.form}
+        id={`${name}-form`}
+      >
         {label && <label className={labelClasses}>{label}</label>}
         {children}
       </form>

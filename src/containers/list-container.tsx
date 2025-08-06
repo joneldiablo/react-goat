@@ -1,11 +1,16 @@
 import React from "react";
-import Container, { ContainerProps } from "./container";
+import Container, { ContainerProps, ContainerState } from "./container";
 
 export interface ListContainerProps extends ContainerProps {
   liClasses?: string | string[];
 }
 
-export default class ListContainer<TProps extends ListContainerProps = ListContainerProps> extends Container<TProps> {
+export interface ListContainerState extends ContainerState {}
+
+export default class ListContainer<
+  TProps extends ListContainerProps = ListContainerProps,
+  TState extends ListContainerState = ListContainerState
+> extends Container<TProps, TState> {
   static jsClass = "ListContainer";
 
   static defaultProps = {
@@ -15,42 +20,47 @@ export default class ListContainer<TProps extends ListContainerProps = ListConta
     tag: "ul",
   };
 
+  constructor(props: TProps) {
+    super(props);
+    this.state = this.state as TState;
+  }
+
   li(children = this.props.children, extraClasses?: string | string[]) {
     const { liClasses } = this.props;
 
-    return (
-      Array.isArray(children) &&
-      children
-        .map((child: any, i: number) => {
-          if (!child) return null;
+    return [children]
+      .flat()
+      .map((child: any, i: number) => {
+        if (!child) return null;
 
-          let licn = [i % 2 ? "even" : "odd", `li-num-${i}`];
+        let licn = [i % 2 ? "even" : "odd", `li-num-${i}`];
 
-          const theChildConf = (
-            child.props?.style?.["--component-name"] ? child.props.children : child
-          )?.props;
+        const theChildConf = (
+          child.props?.style?.["--component-name"]
+            ? child.props.children
+            : child
+        )?.props;
 
-          const childLiClasses = theChildConf?.liClasses;
-          if (childLiClasses) licn.push(childLiClasses);
+        const childLiClasses = theChildConf?.liClasses;
+        if (childLiClasses) licn.push(childLiClasses);
 
-          if (typeof liClasses === "string") licn.push(liClasses);
-          else if (Array.isArray(liClasses)) {
-            licn.push(liClasses[i] ?? liClasses[liClasses.length - 1]);
-          }
+        if (typeof liClasses === "string") licn.push(liClasses);
+        else if (Array.isArray(liClasses)) {
+          licn.push(liClasses[i] ?? liClasses[liClasses.length - 1]);
+        }
 
-          if (typeof extraClasses === "string") licn.push(extraClasses);
-          else if (Array.isArray(extraClasses)) {
-            licn.push(extraClasses[i] ?? extraClasses[extraClasses.length - 1]);
-          }
+        if (typeof extraClasses === "string") licn.push(extraClasses);
+        else if (Array.isArray(extraClasses)) {
+          licn.push(extraClasses[i] ?? extraClasses[extraClasses.length - 1]);
+        }
 
-          return (
-            <li className={licn.flat().join(" ")} key={i}>
-              {child}
-            </li>
-          );
-        })
-        .filter(Boolean)
-    );
+        return (
+          <li className={licn.flat().join(" ")} key={i}>
+            {child}
+          </li>
+        );
+      })
+      .filter(Boolean);
   }
 
   content(children = this.props.children) {

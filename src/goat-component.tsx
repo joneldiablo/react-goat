@@ -19,7 +19,7 @@ export interface GoatComponentState extends ComponentState {
   [key: string]: any;
 }
 
-export interface TemplateSchema {
+export interface ComponentTemplateSchema {
   view: Record<string, any>;
   definitions?: Record<string, any>;
 }
@@ -29,7 +29,7 @@ export default class GoatComponent<
   TState extends GoatComponentState = GoatComponentState
 > extends Component<TProps, TState> {
   static jsClass = "GoatComponent";
-  static template?: TemplateSchema | null = {
+  static template?: ComponentTemplateSchema | null = {
     view: {},
     definitions: {}
   };

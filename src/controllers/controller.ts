@@ -1,5 +1,8 @@
 import React, { Component, ReactNode } from "react";
-import GoatContainer, { GoatContainerProps, GoatContainerState } from "../containers/goat-container";
+import GoatContainer, {
+  GoatContainerProps,
+  GoatContainerState,
+} from "../containers/goat-container";
 
 // Definimos la interfaz para las propiedades del componente
 export interface ControllerProps extends GoatContainerProps {
@@ -24,13 +27,14 @@ export default class Controller<
 
   static defaultProps: Partial<ControllerProps> = {
     ...GoatContainer.defaultProps,
-    test: false
+    test: false,
   };
   static template = null;
 
   constructor(props: TProps) {
     super(props);
     this.tag = "article";
+    this.state = this.state as TState;
     Object.assign(this.state, {
       localClasses: this.props.test ? "test-view-wrapper" : "",
     });
@@ -52,7 +56,6 @@ export default class Controller<
   }
 
   componentDidUpdate(prevProps: TProps) {
-
     if (prevProps.test !== this.props.test) {
       const { localClasses } = this.state;
       const setClasses = new Set(localClasses.split(" "));

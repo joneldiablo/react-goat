@@ -1,13 +1,35 @@
 import React, { createRef } from "react";
-import { Doughnut, Bar, Bubble, Chart, Line, Pie, PolarArea, Radar, Scatter } from "react-chartjs-2";
+import {
+  Doughnut,
+  Bar,
+  Bubble,
+  Chart,
+  Line,
+  Pie,
+  PolarArea,
+  Radar,
+  Scatter,
+} from "react-chartjs-2";
+import { ChartTypeRegistry, CoreChartOptions } from "chart.js";
 
 import eventHandler from "dbl-utils/event-handler";
 
-import ProportionalContainer, { ProportionalContainerProps } from "../containers/proportional-container";
+import ProportionalContainer, {
+  ProportionalContainerProps,
+  ProportionalContainerState,
+} from "../containers/proportional-container";
 import Icons from "../media/icons";
 
 const graphs: Record<string, React.ComponentType<any>> = {
-  Doughnut, Bar, Bubble, Chart, Line, Pie, PolarArea, Radar, Scatter,
+  Doughnut,
+  Bar,
+  Bubble,
+  Chart,
+  Line,
+  Pie,
+  PolarArea,
+  Radar,
+  Scatter,
 };
 
 /**
@@ -18,17 +40,18 @@ const graphs: Record<string, React.ComponentType<any>> = {
  * addGraphs({ Custom: CustomGraph });
  * ```
  */
-export const addGraphs = (moreGraphs: Record<string, React.ComponentType<any>>): void => {
+export const addGraphs = (
+  moreGraphs: Record<string, React.ComponentType<any>>
+): void => {
   Object.assign(graphs, moreGraphs);
 };
 
-export interface ChartjsProps extends ProportionalContainerProps {
+export interface ChartjsProps<ChartType extends keyof ChartTypeRegistry>
+  extends ProportionalContainerProps {
   /** Data set for the graph. */
   data: any[] | Record<string, any>;
-  /** Aspect ratio for the chart. */
-  ratio?: number | Record<string, number>;
   /** Chart.js options object. */
-  options?: Record<string, any>;
+  options?: CoreChartOptions<ChartType>;
   /** List of Chart.js plugins. */
   plugins?: any[];
   /** Key to identify datasets. */
@@ -36,10 +59,19 @@ export interface ChartjsProps extends ProportionalContainerProps {
   /** React node to display while loading. */
   fallbackContent?: React.ReactNode;
   /** Update mode passed to Chart.js. */
-  updateMode?: "active" | "hide" | "none" | "normal" | "reset" | "resize" | "show";
+  updateMode?:
+    | "active"
+    | "hide"
+    | "none"
+    | "normal"
+    | "reset"
+    | "resize"
+    | "show";
   /** Graph component name to render. */
   graph?: string;
 }
+
+export interface ChartjsState extends ProportionalContainerState {}
 
 /**
  * Responsive container that renders a Chart.js graph.
@@ -49,10 +81,13 @@ export interface ChartjsProps extends ProportionalContainerProps {
  * <Chartjs name="sales" data={data} graph="Bar" />
  * ```
  */
-export default class Chartjs<TProps extends ChartjsProps = ChartjsProps> extends ProportionalContainer<TProps> {
+export default class Chartjs<
+  TProps extends ChartjsProps<keyof ChartTypeRegistry> = ChartjsProps<"bar">,
+  TState extends ChartjsState = ChartjsState
+> extends ProportionalContainer<TProps, TState> {
   static jsClass = "Chartjs";
 
-  static defaultProps: Partial<ChartjsProps> = {
+  static defaultProps = {
     ...ProportionalContainer.defaultProps,
     ratio: 1,
     options: {},
@@ -67,9 +102,10 @@ export default class Chartjs<TProps extends ChartjsProps = ChartjsProps> extends
 
   constructor(props: TProps) {
     super(props);
+    this.state = this.state as TState;
     this.events.push(
       ["ready." + this.props.name, this.onReadyElement.bind(this)],
-      ["resize." + this.props.name, this.onResizeElement.bind(this)],
+      ["resize." + this.props.name, this.onResizeElement.bind(this)]
     );
   }
 
@@ -89,11 +125,16 @@ export default class Chartjs<TProps extends ChartjsProps = ChartjsProps> extends
     this.refChart.current?.update();
   }
 
-  content(children: React.ReactNode = this.props.children): React.ReactNode {
+  content(children: React.ReactNode = this.props.children) {
     if (!this.breakpoint) return this.waitBreakpoint;
 
     const options = { ...(this.props.options || {}) };
-    const ratioValue = typeof this.props.ratio === "object" ? this.props.ratio[this.breakpoint] : this.props.ratio;
+    const ratioValue =
+      Number(
+        typeof this.props.ratio === "object"
+          ? this.props.ratio[this.breakpoint]
+          : this.props.ratio
+      ) || 1;
     if (ratioValue) options.aspectRatio = 1 / ratioValue;
     const attribs = {
       data: this.props.data,
@@ -111,10 +152,13 @@ export default class Chartjs<TProps extends ChartjsProps = ChartjsProps> extends
     const Graph = graphs[this.props.graph ?? "Bar"];
     return super.content(
       <>
-        {!this.props.loading ? <Graph {...attribs} /> : <Icons icon="spinner" classes="spinner" />}
+        {!this.props.loading ? (
+          <Graph {...attribs} />
+        ) : (
+          <Icons icon="spinner" classes="spinner" />
+        )}
         {children}
-      </>,
+      </>
     );
   }
 }
-

@@ -1,5 +1,6 @@
-import React, { ExoticComponent } from "react";
+import React from "react";
 import { Link as ReactRouterLink, LinkProps as RouterLinkProps } from "react-router-dom";
+
 import Component, { ComponentProps } from "../component";
 
 export interface LinkProps extends ComponentProps, RouterLinkProps {

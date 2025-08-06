@@ -52,7 +52,7 @@ export default class SlideContainer<
         {...attrs}
         key={`${this.name};perPage=${attrs.options?.perPage}`}
       >
-        {arrChildren.map((child, index) => mapSlides([index, child]))}
+        {...arrChildren.map((child, index) => mapSlides([index, child]))}
       </Splide>
     );
   }

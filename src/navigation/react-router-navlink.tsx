@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink as ReactRouterNavLink, NavLinkProps as RouterNavLinkProps } from "react-router-dom";
+
 import Component, { ComponentProps } from "../component";
 
 export interface NavLinkProps extends ComponentProps, RouterNavLinkProps {

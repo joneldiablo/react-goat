@@ -38,12 +38,12 @@ export interface GoatContainerState extends ContainerState {
 }
 
 /** Template structure for static rendering. */
-export interface TemplateSchema {
+export interface ContainerTemplateSchema {
   /** Default view schema. */
   view: Record<string, any>;
   /** Optional shared definitions. */
   definitions?: Record<string, any>;
-};
+}
 
 /**
  * Container capable of rendering a JSON schema using {@link Goat}.
@@ -53,9 +53,9 @@ export default class GoatContainer<
   TState extends GoatContainerState = GoatContainerState
 > extends Container<TProps, TState> {
   static jsClass = "GoatContainer";
-  static template?: TemplateSchema | null = {
+  static template?: ContainerTemplateSchema | null = {
     view: {},
-    definitions: {}
+    definitions: {},
   };
 
   static defaultProps: Partial<GoatContainerProps> = {
@@ -63,7 +63,7 @@ export default class GoatContainer<
     fullWidth: true,
     view: null,
     childrenIn: false,
-    definitions: {}
+    definitions: {},
   };
 
   protected events: [string, (...args: any[]) => void][] = [];
@@ -72,6 +72,7 @@ export default class GoatContainer<
 
   constructor(props: TProps) {
     super(props);
+    this.state = this.state as TState;
     this.tag = "div";
     Object.assign(this.state, {});
     this.goat = new Goat(this.fixedProps, this.mutations.bind(this));
@@ -95,7 +96,9 @@ export default class GoatContainer<
 
   componentDidMount(): void {
     super.componentDidMount();
-    this.events.forEach(([evtName, callback]) => eventHandler.subscribe(evtName, callback, this.name));
+    this.events.forEach(([evtName, callback]) =>
+      eventHandler.subscribe(evtName, callback, this.name)
+    );
     this.evalTemplate();
   }
 
@@ -110,21 +113,23 @@ export default class GoatContainer<
 
     this.templateSolved = this.props.view
       ? resolveRefs(this.props.view, {
-        template: this.theView,
-        definitions,
-        props: this.props,
-        state: this.state
-      })
+          template: this.theView,
+          definitions,
+          props: this.props,
+          state: this.state,
+        })
       : resolveRefs(this.theView, {
-        definitions,
-        props: this.props,
-        state: this.state
-      });
+          definitions,
+          props: this.props,
+          state: this.state,
+        });
   }
 
   componentWillUnmount(): void {
     super.componentWillUnmount();
-    this.events.forEach(([eName]) => eventHandler.unsubscribe(eName, this.name));
+    this.events.forEach(([eName]) =>
+      eventHandler.unsubscribe(eName, this.name)
+    );
   }
 
   mutations(sectionName: string, section: any): any {
@@ -138,11 +143,13 @@ export default class GoatContainer<
     if (!(this.breakpoint && this.templateSolved)) return this.waitBreakpoint;
 
     const builded = this.goat.buildContent(this.templateSolved);
-    return !this.childrenIn
-      ? <>
+    return !this.childrenIn ? (
+      <>
         {builded}
         {children}
       </>
-      : builded;
+    ) : (
+      builded
+    );
   }
 }

@@ -22,6 +22,8 @@ export { default as Video } from "./media/video";
 export { default as Link } from "./navigation/react-router-link";
 export { default as NavLink } from "./navigation/react-router-navlink";
 
+export { p, t, n, cur, src, setDictionary, SelectLanguage } from "./i18n";
+
 export { default as Route } from "./react-router-schema/route";
 export { default as SchemaController } from "./react-router-schema/react-router-schema";
 export { default as withRouteWrapper } from "./react-router-schema/with-route-wrapper";
@@ -57,6 +59,8 @@ export * from "./media/video";
 
 export * from "./navigation/react-router-link";
 export * from "./navigation/react-router-navlink";
+
+export * from "./i18n";
 
 export * from "./react-router-schema/react-router-schema";
 export * from "./react-router-schema/route";

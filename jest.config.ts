@@ -20,6 +20,7 @@ const config: JestConfigWithTsJest = {
     "^swiper/modules$": "<rootDir>/__mocks__/swiper/modules.js",
     "^@splidejs/react-splide$": "<rootDir>/__mocks__/@splidejs/react-splide.js",
     "^react-youtube$": "<rootDir>/__mocks__/react-youtube.js",
+    "\\.svg$": "<rootDir>/__mocks__/file-mock.js",
   },
   testMatch: ["**/__tests__/**/*.test.tsx", "**/__tests__/**/*.test.ts"],
   transformIgnorePatterns: ["node_modules/(?!.*\\.mjs$|.*flat.*)"],

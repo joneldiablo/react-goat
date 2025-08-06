@@ -16,18 +16,30 @@ import controllers from "../controllers";
 import withRouteWrapper from "./with-route-wrapper";
 import { RouteProps } from "./route";
 
+/**
+ * Configuration for {@link SchemaController} and router wrappers.
+ */
 interface SchemaProps {
+  /** Enables test mode for all routes. */
   test?: boolean;
+  /** Optional CSS theme to load. */
   theme?: string;
+  /** Route schema definition. */
   routes: RouteProps | RouteProps[];
+  /** Default controller used when a route component is missing. */
   defaultController?: any;
+  /** Force rebuilding routes on every render. */
   forceRebuild?: boolean;
 }
 
 const defaultProps: Partial<SchemaProps> = {
+  routes: [],
   defaultController: controllers.Controller,
 };
 
+/**
+ * Controller that renders a React Router `<Routes>` tree from a schema.
+ */
 export default class SchemaController extends React.Component<SchemaProps> {
   static jsClass = "SchemaController";
   static defaultProps = defaultProps;
@@ -37,6 +49,7 @@ export default class SchemaController extends React.Component<SchemaProps> {
 
   constructor(props: SchemaProps) {
     super(props);
+    this.routesHash = hash(JSON.stringify(props.routes));
     this.buildRoutes();
   }
 
@@ -53,13 +66,14 @@ export default class SchemaController extends React.Component<SchemaProps> {
       routes = Object.keys(routesSchema).map((name, i) => this.views({ name, ...routesSchema[name] }, i));
 
     this.routeNodes = routes;
+    this.routesHash = hash(JSON.stringify(this.props.routes));
   }
 
   componentDidUpdate(prevProps: SchemaProps) {
-    let newHash = hash(JSON.stringify(this.props.routes));
+    const newHash = hash(JSON.stringify(this.props.routes));
     if (this.routesHash !== newHash) {
       this.buildRoutes();
-      this.routesHash = newHash;
+      this.forceUpdate();
     }
   }
 
@@ -78,7 +92,10 @@ export default class SchemaController extends React.Component<SchemaProps> {
     }
 
     if (subroutes) {
-      subroutes = route.routes!.map((subRoute, i) => this.views(subRoute, i));
+      subroutes = route.routes!.map((subRoute, i) => {
+        const clone = JSON.parse(JSON.stringify(subRoute));
+        return this.views(clone, i);
+      });
     }
 
     const routeProps: any = {
@@ -129,6 +146,10 @@ export default class SchemaController extends React.Component<SchemaProps> {
   }
 }
 
+/**
+ * Internal wrapper that dispatches location changes and renders the schema
+ * controller.
+ */
 const RouterSchema: React.FC<SchemaProps> = (props) => {
   const location = useLocation();
   useEffect(() => {
@@ -137,6 +158,14 @@ const RouterSchema: React.FC<SchemaProps> = (props) => {
   return <SchemaController {...props} />;
 };
 
+/**
+ * Renders the schema inside a {@link BrowserRouter}.
+ *
+ * @example
+ * ```tsx
+ * <BrowserRouterSchema routes={[{ path: '/', component: 'Controller' }]} />
+ * ```
+ */
 export const BrowserRouterSchema: React.FC<SchemaProps> = (props) => {
   const mergedProps = { ...defaultProps, ...props };
   return (
@@ -146,6 +175,14 @@ export const BrowserRouterSchema: React.FC<SchemaProps> = (props) => {
   );
 };
 
+/**
+ * Renders the schema inside a {@link HashRouter}.
+ *
+ * @example
+ * ```tsx
+ * <HashRouterSchema routes={[{ path: '/', component: 'Controller' }]} />
+ * ```
+ */
 export const HashRouterSchema: React.FC<SchemaProps> = (props) => {
   const mergedProps = { ...defaultProps, ...props };
   return (

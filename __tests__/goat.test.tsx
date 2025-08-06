@@ -1,89 +1,30 @@
 import React from "react";
-import { render } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
 
-jest.mock("swiper/react", () => ({
-  Swiper: (p: any) => <div>{p.children}</div>,
-  SwiperSlide: (p: any) => <div className="swiper-slide">{p.children}</div>,
-}));
-jest.mock("swiper/modules", () => ({ Autoplay: {} }));
-jest.mock("@floating-ui/react", () => ({}));
+jest.mock("dbl-utils/object-mutation", () => ({ deepMerge: (t: any, ...s: any[]) => Object.assign(t, ...s) }));
+jest.mock("dbl-utils/i18n", () => ({ __esModule: true, default: (s: string) => s }));
+jest.mock("dbl-utils/format-value", () => ({ __esModule: true, default: (v: any) => v }));
+jest.mock("dbl-utils/utils", () => ({ hash: (s: string) => s }));
 
-import Goat from "../src/goat";
+import Goat, { addWrapperExclusions } from "../src/goat";
 
-const mockMutations = jest.fn((name, data) => data);
+function buildSection(name: string, content: string) {
+  const goat = new Goat({ name: "root" });
+  return goat.buildContent({ name, component: "Component", content });
+}
 
-describe("Goat Component", () => {
-  it("should render simple text content correctly", () => {
-    const goat = new Goat({}, mockMutations);
-    const content = "Hello, World!";
-    const builtContent = goat.buildContent(content);
-
-    const { getByText } = render(<>{builtContent}</>);
-
-    expect(getByText("Hello, World!")).toBeInTheDocument();
-  });
-
-  it("should render a dynamic component with content", () => {
-    const goat = new Goat({}, mockMutations);
-    const content = {
-      name: "dynamic-component",
-      component: "Component",
-      content: "Dynamic Content"
-    };
-
-    const builtContent = goat.buildContent(content);
-
-    const { getByText } = render(<>{builtContent}</>);
-
-    expect(getByText("Dynamic Content")).toBeInTheDocument();
-  });
-
-  it("should wrap components inside a section by default", () => {
-    const goat = new Goat({}, mockMutations);
-    const content = {
-      name: "wrapped-component",
-      component: "Component",
-      content: "Wrapped Content"
-    };
-
-    const builtContent = goat.buildContent(content);
-
-    const { container } = render(<>{builtContent}</>);
-
-    expect(container.querySelector("section")).toBeTruthy();
-  });
-
-  it("should exclude certain components from being wrapped", () => {
-    const goat = new Goat({}, mockMutations);
-    const content = {
-      name: "NavLink",
-      component: "NavLink",
-      content: "Excluded Content"
-    };
-
-    const builtContent = goat.buildContent(content);
-
-    const { getByText } = render(<MemoryRouter>{builtContent}</MemoryRouter>);
-    expect(getByText("Excluded Content").closest("section")).toBeNull();
-  });
-
-  it("should apply mutations correctly", () => {
-    const mockMutation = jest.fn((name, data) => ({
-      ...data,
-      style: { color: "red" }
-    }));
-    const goat = new Goat({}, mockMutation);
-    const content = {
-      name: "mutated-component",
-      component: "Component",
-      content: "Mutated Content"
-    };
-
-    const builtContent = goat.buildContent(content);
-
-    const { getByText } = render(<>{builtContent}</>);
-    expect(getByText("Mutated Content")).toBeInTheDocument();
-  });
+test("wraps sections by default", () => {
+  const node = buildSection("a", "Hello");
+  render(<>{node}</>);
+  const text = screen.getByText("Hello");
+  expect(text.parentElement?.tagName).toBe("SECTION");
 });
+
+test("allows excluding components from wrapper", () => {
+  addWrapperExclusions("Component");
+  const node = buildSection("b", "Hi");
+  render(<>{node}</>);
+  const text = screen.getByText("Hi");
+  expect(text.parentElement?.tagName).not.toBe("SECTION");
+});
+

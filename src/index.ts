@@ -32,6 +32,7 @@ export { default as Goat } from "./goat";
 export { default as GoatComponent } from "./goat-component";
 export { default as ComplexComponent } from "./complex-component";
 export { default as ComplexResponsiveComponent } from "./complex-responsive-component";
+export { Chartjs, BarChartjs, DoughnutChartjs, LineChartjs, ScatterChartjs, addGraphs } from "./chartjs";
 
 export * from "./containers/container";
 export * from "./containers/details-container";
@@ -70,3 +71,4 @@ export * from "./goat";
 export * from "./goat-component";
 export * from "./complex-component";
 export * from "./complex-responsive-component";
+export * from "./chartjs";

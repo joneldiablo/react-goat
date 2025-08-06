@@ -1,12 +1,24 @@
 import { useState, useMemo } from "react";
 
+/** Accepted formats for class lists. */
 type Classes = string | string[];
 
 interface UseClassesProps {
+  /** Classes that are always applied. */
   fixedClasses?: Classes;
+  /** Initial modifiable classes. */
   initialClasses?: Classes;
 }
 
+/**
+ * React hook to manage CSS classes programmatically.
+ *
+ * @example
+ * ```tsx
+ * const { classes, addClasses } = useClasses({ initialClasses: "btn" });
+ * addClasses("active");
+ * ```
+ */
 export default function useClasses({
   fixedClasses = [],
   initialClasses = [],
